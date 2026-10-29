@@ -1,0 +1,2046 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESGES 2027 | Uluslararası İklim Değişikliği ve Gelecek Sempozyumu</title>
+  
+  <!-- Google Fonts: Montserrat (Başlıklar) & Open Sans (Gövde) - EdUA Tipografisi -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome İkonları -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              emerald: '#059669',
+              darkGreen: '#064e3b',
+              forest: '#022c22',
+              teal: '#0d9488',
+              accent: '#f97316',
+              accentHover: '#ea580c',
+              lightBg: '#f8fafc',
+              navy: '#0f172a'
+            }
+          },
+          fontFamily: {
+            title: ['Montserrat', 'sans-serif'],
+            sans: ['Open Sans', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Özel Preloader Animasyonu */
+    @keyframes logoPulse {
+      0% { transform: scale(0.85); opacity: 0.7; filter: drop-shadow(0 0 5px rgba(16, 185, 129, 0.4)); }
+      50% { transform: scale(1.12); opacity: 1; filter: drop-shadow(0 0 25px rgba(16, 185, 129, 0.9)); }
+      100% { transform: scale(0.85); opacity: 0.7; filter: drop-shadow(0 0 5px rgba(16, 185, 129, 0.4)); }
+    }
+    .animate-logo-pulse {
+      animation: logoPulse 2.2s infinite ease-in-out;
+    }
+
+    /* Hero Ken Burns Görsel Efekti */
+    .hero-slide {
+      transition: opacity 1.5s ease-in-out, transform 8s ease-out;
+    }
+    .hero-slide.active {
+      opacity: 1;
+      transform: scale(1.08);
+    }
+    .hero-slide.inactive {
+      opacity: 0;
+      transform: scale(1);
+    }
+
+    /* Paydaşlar Sonsuz Kayan Bant (Marquee) */
+    @keyframes marqueeScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      display: flex;
+      width: 200%;
+      animation: marqueeScroll 22s linear infinite;
+    }
+    .animate-marquee:hover {
+      animation-play-state: paused;
+    }
+
+    /* Cam Efekti (Glassmorphism) */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+    .glass-card-dark {
+      background: rgba(6, 78, 59, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Zaman Çizgisi dikey hattı */
+    .timeline-line::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      bottom: 20px;
+      left: 50%;
+      width: 4px;
+      background: linear-gradient(180deg, #10b981 0%, #0d9488 50%, #f97316 100%);
+      transform: translateX(-50%);
+      border-radius: 9999px;
+    }
+    @media (max-width: 768px) {
+      .timeline-line::before {
+        left: 28px;
+      }
+    }
+
+    /* ==========================================
+       SCROLL REVEAL ANIMASYONLARI
+       ========================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+                  transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: opacity, transform;
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Varyantlar */
+    .reveal-left  { opacity: 0; transform: translateX(-50px); transition: opacity .8s ease-out, transform .8s cubic-bezier(0.22,1,0.36,1); }
+    .reveal-right { opacity: 0; transform: translateX(50px);  transition: opacity .8s ease-out, transform .8s cubic-bezier(0.22,1,0.36,1); }
+    .reveal-scale { opacity: 0; transform: scale(0.9);        transition: opacity .8s ease-out, transform .8s cubic-bezier(0.22,1,0.36,1); }
+
+    .reveal-left.is-visible,
+    .reveal-right.is-visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-scale.is-visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Stagger (kademeli) gecikmeler */
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* Bölüm başlığı animasyonu */
+    .reveal-heading {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+    }
+    .reveal-heading.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-heading .w-14,
+    .reveal-heading .w-12 {
+      transform-origin: left center;
+      transform: scaleX(0);
+      transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
+    }
+    .reveal-heading.is-visible .w-14,
+    .reveal-heading.is-visible .w-12 {
+      transform: scaleX(1);
+    }
+
+    /* Zaman çizgisi öğeleri */
+    .timeline-item {
+      opacity: 0;
+      transform: translateY(30px) scale(0.97);
+      transition: opacity 0.7s ease-out, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .timeline-item.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    /* Duyuru kartları */
+    .notice-card {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease-out, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .notice-card.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* İstatistik rakamları */
+    .stat-number {
+      opacity: 0;
+      transform: scale(0.5);
+      transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .stat-number.is-visible {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    /* Erişilebilirlik */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .reveal-left, .reveal-right, .reveal-scale,
+      .reveal-heading, .timeline-item, .notice-card, .stat-number {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
+      .reveal-heading .w-14,
+      .reveal-heading .w-12 {
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="font-sans bg-brand-lightBg text-slate-800 antialiased selection:bg-brand-emerald selection:text-white">
+
+  <!-- ==================== 1. PRELOADER (ESGES LOGO ANİMASYONU) ==================== -->
+  <div id="preloader" class="fixed inset-0 z-[9999] bg-slate-900 flex flex-col items-center justify-center transition-opacity duration-700">
+    <div class="relative flex flex-col items-center justify-center">
+      <div class="animate-pulse flex flex-col items-center">
+        <svg class="w-32 h-32 md:w-40 md:h-40 drop-shadow-2xl" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="100" r="90" stroke="url(#esgesGrad)" stroke-width="4" fill="#0f172a" />
+          <path d="M100 35C100 35 145 65 145 110C145 145 115 165 100 165C85 165 55 145 55 110C55 65 100 35 100 35Z" fill="url(#leafGrad)" opacity="0.2"/>
+          <path d="M100 45C100 45 135 75 135 110C135 135 115 155 100 155C85 155 65 135 65 110C65 75 100 45 100 45Z" stroke="#10b981" stroke-width="3" stroke-linecap="round"/>
+          <path d="M100 55V145" stroke="#10b981" stroke-width="2.5" stroke-dasharray="4 3"/>
+          <path d="M100 95C115 85 125 90 125 90" stroke="#059669" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M100 115C85 105 75 110 75 110" stroke="#059669" stroke-width="2.5" stroke-linecap="round"/>
+          <defs>
+            <linearGradient id="esgesGrad" x1="0" y1="0" x2="200" y2="200" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#10b981"/>
+              <stop offset="0.5" stop-color="#0284c7"/>
+              <stop offset="1" stop-color="#f97316"/>
+            </linearGradient>
+            <linearGradient id="leafGrad" x1="100" y1="35" x2="100" y2="165" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#10b981"/>
+              <stop offset="1" stop-color="#0284c7"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="mt-4 text-center">
+          <span class="text-3xl font-extrabold tracking-wider text-emerald-400 block font-['Montserrat']">ESGES</span>
+          <span class="text-xs font-semibold tracking-widest text-slate-300 uppercase block mt-1">Eskişehir Geleceğin Sesi Sempozyumu</span>
+          <span class="inline-block mt-2 px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">2027</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 2. HEADER & RESPONSIVE MENÜ ==================== -->
+  <header id="mainHeader" class="fixed top-0 left-0 right-0 z-40 transition-all duration-300 py-4 bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <a href="#" class="flex items-center group py-1">
+        <img src="esges-logo.png" alt="ESGES 2027" class="h-9 sm:h-12 md:h-16 w-auto max-w-[130px] sm:max-w-none object-contain transition-transform duration-300 group-hover:scale-105">
+      </a>
+
+      <nav class="hidden lg:flex items-center space-x-8 font-title font-semibold text-sm text-slate-700">
+        <a href="#anasayfa" class="hover:text-brand-emerald transition-colors relative py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-brand-emerald after:rounded-full">Anasayfa</a>
+        <a href="#duyurular" class="hover:text-brand-emerald transition-colors py-1">Duyurular</a>
+        <a href="#takvim" class="hover:text-brand-emerald transition-colors py-1">Önemli Tarihler</a>
+        <a href="#alt-temalar" class="hover:text-brand-emerald transition-colors py-1">Sempozyum & Temalar</a>
+        <a href="#sss" class="hover:text-brand-emerald transition-colors py-1">SSS</a>
+        <a href="#iletisim" class="hover:text-brand-emerald transition-colors py-1">İletişim</a>
+      </nav>
+
+      <div class="hidden lg:flex items-center gap-3">
+        <button onclick="openModal('abstractModal')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-title font-bold tracking-wide text-white bg-gradient-to-r from-brand-accent to-amber-600 hover:from-brand-accentHover hover:to-orange-700 shadow-lg shadow-orange-500/25 transition-all transform hover:-translate-y-0.5">
+          <i class="fa-solid fa-paper-plane"></i>
+          <span>BİLDİRİ/POSTER GÖNDER</span>
+        </button>
+      </div>
+
+      <button id="mobileMenuBtn" aria-label="Menüyü Aç" class="lg:hidden p-2 rounded-lg text-slate-700 hover:text-brand-emerald hover:bg-slate-100 transition-colors focus:outline-none">
+        <i class="fa-solid fa-bars text-2xl"></i>
+      </button>
+    </div>
+  </header>
+
+  <div id="mobileDrawer" class="fixed inset-0 bg-slate-900/60 z-50 backdrop-blur-sm hidden lg:hidden">
+    <div class="w-4/5 max-w-sm bg-white h-full ml-auto p-6 flex flex-col justify-between shadow-2xl overflow-y-auto">
+      <div>
+        <div class="flex items-center justify-between border-b pb-4 border-slate-100">
+          <div class="flex items-center gap-2">
+            <div class="w-9 h-9 rounded-lg bg-brand-emerald text-white flex items-center justify-center font-bold">E</div>
+            <span class="font-title font-extrabold text-lg text-slate-800">ESGES Menü</span>
+          </div>
+          <button id="closeDrawerBtn" aria-label="Menüyü Kapat" class="p-2 text-slate-400 hover:text-slate-800 rounded-full hover:bg-slate-100 transition-colors">
+            <i class="fa-solid fa-xmark text-xl"></i>
+          </button>
+        </div>
+
+        <nav class="mt-6 flex flex-col space-y-3 font-title font-semibold text-slate-700">
+          <a href="#anasayfa" class="mobile-nav-link flex items-center justify-between p-3 rounded-xl bg-slate-50 hover:bg-emerald-50 hover:text-brand-emerald transition-colors">
+            <span>Anasayfa</span>
+            <i class="fa-solid fa-angle-right text-xs opacity-50"></i>
+          </a>
+          <a href="#duyurular" class="mobile-nav-link flex items-center justify-between p-3 rounded-xl bg-slate-50 hover:bg-emerald-50 hover:text-brand-emerald transition-colors">
+            <span>Duyurular</span>
+            <i class="fa-solid fa-angle-right text-xs opacity-50"></i>
+          </a>
+          <a href="#takvim" class="mobile-nav-link flex items-center justify-between p-3 rounded-xl bg-slate-50 hover:bg-emerald-50 hover:text-brand-emerald transition-colors">
+            <span>Faaliyet Takvimi</span>
+            <i class="fa-solid fa-angle-right text-xs opacity-50"></i>
+          </a>
+          <a href="#alt-temalar" class="mobile-nav-link flex items-center justify-between p-3 rounded-xl bg-slate-50 hover:bg-emerald-50 hover:text-brand-emerald transition-colors">
+            <span>Alt Temalar</span>
+            <i class="fa-solid fa-angle-right text-xs opacity-50"></i>
+          </a>
+          <a href="#sss" class="mobile-nav-link flex items-center justify-between p-3 rounded-xl bg-slate-50 hover:bg-emerald-50 hover:text-brand-emerald transition-colors">
+            <span>Sıkça Sorulan Sorular</span>
+            <i class="fa-solid fa-angle-right text-xs opacity-50"></i>
+          </a>
+          <a href="#iletisim" class="mobile-nav-link flex items-center justify-between p-3 rounded-xl bg-slate-50 hover:bg-emerald-50 hover:text-brand-emerald transition-colors">
+            <span>İletişim</span>
+            <i class="fa-solid fa-angle-right text-xs opacity-50"></i>
+          </a>
+        </nav>
+      </div>
+
+      <div class="pt-6 border-t border-slate-100 flex flex-col gap-3">
+        <button onclick="openModal('textModal')" class="w-full py-2.5 px-4 rounded-xl font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 active:scale-95 transition-all text-center text-xs">Çağrı Metni İncele</button>
+        <button onclick="openModal('abstractModal')" class="w-full py-3 px-4 rounded-xl bg-brand-accent text-white font-title font-bold text-center text-sm shadow-md hover:bg-brand-accentHover">Bildiri Gönder</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 3. HERO SECTION ==================== -->
+  <section id="anasayfa" class="relative min-h-[92vh] flex items-center justify-center pt-24 pb-16 overflow-hidden">
+
+    <div class="absolute inset-0 z-0 overflow-hidden">
+      <div class="hero-slide active absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?auto=format&fit=crop&w=1920&q=80');"></div>
+      <div class="hero-slide inactive absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&w=1920&q=80');"></div>
+      <div class="hero-slide inactive absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1470240731273-7821a6eeb6bd?auto=format&fit=crop&w=1920&q=80');"></div>
+      <div class="hero-slide inactive absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1920&q=80');"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-emerald-950/70 via-teal-900/35 to-slate-900/40"></div>
+    </div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center text-white mt-4">
+      <h1 class="text-2xl sm:text-3xl md:text-4xl font-title font-extrabold tracking-tight leading-snug mb-4">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-teal-200 to-amber-300">
+          ESKİŞEHİR GELECEĞİN SESİ SEMPOZYUMU (ESGES)
+        </span>
+      </h1>
+
+      <p class="max-w-2xl mx-auto text-xs sm:text-sm md:text-base text-slate-200/90 font-normal leading-relaxed mb-6">
+        ESGES Öğrenci Sempozyumu ile öğrencilerimizin bilimsel projelerini sergilemelerine olanak sağlanacak, fen ve sosyal bilimler alanlarında çalışan bilim insanları ile öğrenciler bir araya getirilerek ilgili disiplinlerde bilgi ve etkileşim güçlendirilecek, genç bilim insanlarının yetişmesine katkıda bulunulacak, bilimsel araştırma tekniklerinde öğrencilerimize farkındalık kazandırılacaktır.
+      </p>
+
+      <div class="max-w-3xl mx-auto glass-card-dark rounded-2xl p-4 sm:p-5 shadow-2xl mb-8 border border-emerald-500/30">
+        <p class="text-[11px] sm:text-xs font-title font-semibold uppercase tracking-wider text-emerald-300 mb-3 text-center">
+          Sempozyum Başlangıcına Kalan Süre
+        </p>
+
+        <div class="grid grid-cols-5 gap-1.5 sm:gap-3 text-center">
+          <div class="bg-black/35 rounded-xl p-2 sm:p-3 border border-white/10 flex flex-col justify-center">
+            <span id="countdownMonths" class="block font-title font-black text-xl sm:text-3xl text-emerald-300">00</span>
+            <span class="text-[9px] sm:text-[11px] font-medium text-emerald-100 uppercase mt-0.5">Ay</span>
+          </div>
+          <div class="bg-black/35 rounded-xl p-2 sm:p-3 border border-white/10 flex flex-col justify-center">
+            <span id="countdownDays" class="block font-title font-black text-xl sm:text-3xl text-white">00</span>
+            <span class="text-[9px] sm:text-[11px] font-medium text-emerald-100 uppercase mt-0.5">Gün</span>
+          </div>
+          <div class="bg-black/35 rounded-xl p-2 sm:p-3 border border-white/10 flex flex-col justify-center">
+            <span id="countdownHours" class="block font-title font-black text-xl sm:text-3xl text-white">00</span>
+            <span class="text-[9px] sm:text-[11px] font-medium text-emerald-100 uppercase mt-0.5">Saat</span>
+          </div>
+          <div class="bg-black/35 rounded-xl p-2 sm:p-3 border border-white/10 flex flex-col justify-center">
+            <span id="countdownMinutes" class="block font-title font-black text-xl sm:text-3xl text-white">00</span>
+            <span class="text-[9px] sm:text-[11px] font-medium text-emerald-100 uppercase mt-0.5">Dakika</span>
+          </div>
+          <div class="bg-black/35 rounded-xl p-2 sm:p-3 border border-white/10 flex flex-col justify-center">
+            <span id="countdownSeconds" class="block font-title font-black text-xl sm:text-3xl text-amber-400">00</span>
+            <span class="text-[9px] sm:text-[11px] font-medium text-emerald-100 uppercase mt-0.5">Saniye</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <button onclick="openModal('textModal')" class="w-full sm:w-auto px-8 py-4 rounded-xl font-title font-bold text-sm tracking-wide text-white bg-slate-800/80 hover:bg-slate-700 border border-slate-600 backdrop-blur-md transition-all shadow-lg flex items-center justify-center gap-2 transform hover:-translate-y-1">
+          <i class="fa-solid fa-book-open-reader text-emerald-400"></i>
+          <span>SEMPOZYUM ÇAĞRI METNİ</span>
+        </button>
+        <button onclick="openModal('abstractModal')" class="w-full sm:w-auto px-8 py-4 rounded-xl font-title font-bold text-sm tracking-wide text-white bg-gradient-to-r from-brand-accent to-orange-600 hover:from-orange-500 hover:to-orange-700 shadow-xl shadow-orange-600/30 transition-all flex items-center justify-center gap-2 transform hover:-translate-y-1">
+          <i class="fa-solid fa-paper-plane"></i>
+          <span>BİLDİRİ / POSTER GÖNDER</span>
+        </button>
+      </div>
+
+      <div class="flex justify-center items-center gap-2 mt-10" id="slideDots">
+        <span class="w-7 h-1.5 rounded-full bg-emerald-400 cursor-pointer transition-all"></span>
+        <span class="w-2 h-1.5 rounded-full bg-white/40 cursor-pointer hover:bg-white transition-all"></span>
+        <span class="w-2 h-1.5 rounded-full bg-white/40 cursor-pointer hover:bg-white transition-all"></span>
+        <span class="w-2 h-1.5 rounded-full bg-white/40 cursor-pointer hover:bg-white transition-all"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 4. DUYURULAR ==================== -->
+  <section id="duyurular" class="py-12 sm:py-16 bg-slate-50 relative border-b border-slate-200 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="reveal-heading flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 mb-8 sm:mb-10 pb-4 border-b border-slate-200/80">
+        <div>
+          <span class="text-[11px] font-title font-bold uppercase tracking-widest text-brand-emerald block">GÜNCEL GELİŞMELER</span>
+          <h2 class="text-2xl sm:text-3xl font-title font-extrabold text-slate-900 mt-1">Sempozyum Duyuruları</h2>
+          <div class="w-12 h-1 bg-brand-emerald rounded-full mt-2"></div>
+        </div>
+
+        <a href="duyurular.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white border border-slate-300 text-xs font-title font-bold text-slate-700 hover:text-white hover:bg-brand-emerald hover:border-brand-emerald shadow-sm transition-all duration-300 group shrink-0 self-start sm:self-auto">
+          <span>Tüm Duyurular</span>
+          <i class="fa-solid fa-arrow-right text-[11px] group-hover:translate-x-1 transition-transform"></i>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full mx-auto">
+
+        <div class="notice-card w-full bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col justify-between group transform hover:-translate-y-1.5">
+          <div>
+            <div class="relative h-44 sm:h-40 w-full overflow-hidden bg-slate-100">
+              <img src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=600&q=80" alt="Bildiri Özeti Gönderimi" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            </div>
+            <div class="p-4 sm:p-5">
+              <span class="text-[11px] text-slate-400 block mb-1.5">
+                <i class="fa-regular fa-clock mr-1"></i>24 Ekim 2026
+              </span>
+              <h3 class="font-title font-bold text-sm sm:text-base text-slate-900 group-hover:text-brand-emerald transition-colors line-clamp-2 leading-snug">
+                Bildiri Özeti Gönderim Süreci Başlamıştır
+              </h3>
+              <p class="text-xs text-slate-500 mt-2 line-clamp-2 leading-relaxed">
+                İklim değişikliği ve gelecek temalı akademik çalışmalar için bildiri kabul portalı aktif hale getirilmiştir.
+              </p>
+            </div>
+          </div>
+          <div class="px-4 sm:px-5 pb-4 pt-2 border-t border-slate-100/80 flex items-center justify-between">
+            <button onclick="openNoticeModal('Bildiri Özeti Gönderim Süreci Başlamıştır', '5 Ekim 2026 itibarıyla açılan başvuru panelinde özet metinler sisteme yüklenebilir. Son başvuru tarihi 02 Ocak 2027 mesai bitimidir.')" class="text-xs font-title font-bold text-brand-emerald group-hover:text-brand-darkGreen inline-flex items-center gap-1">
+              <span>İncele</span>
+              <i class="fa-solid fa-arrow-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
+            </button>
+            <span class="text-[10px] text-slate-400 font-medium">#Duyuru-01</span>
+          </div>
+        </div>
+
+        <div class="notice-card reveal-delay-1 w-full bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col justify-between group transform hover:-translate-y-1.5">
+          <div>
+            <div class="relative h-44 sm:h-40 w-full overflow-hidden bg-slate-100">
+              <img src="https://images.unsplash.com/photo-1497440001374-f26997328c1b?auto=format&fit=crop&w=600&q=80" alt="Karbon Nötr Oturum Rehberi" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            </div>
+            <div class="p-4 sm:p-5">
+              <span class="text-[11px] text-slate-400 block mb-1.5">
+                <i class="fa-regular fa-clock mr-1"></i>18 Ekim 2026
+              </span>
+              <h3 class="font-title font-bold text-sm sm:text-base text-slate-900 group-hover:text-brand-emerald transition-colors line-clamp-2 leading-snug">
+                İklim Değişikliği & Oturum Rehberi
+              </h3>
+              <p class="text-xs text-slate-500 mt-2 line-clamp-2 leading-relaxed">
+                Yüz yüze ve hibrit katılım sağlayacak araştırmacılar için oturum kuralları ve teknik yönergeler duyuruldu.
+              </p>
+            </div>
+          </div>
+          <div class="px-4 sm:px-5 pb-4 pt-2 border-t border-slate-100/80 flex items-center justify-between">
+            <button onclick="openNoticeModal('İklim Değişikliği & Oturum Rehberi', 'Sempozyum merkezine ulaşımda toplu taşımayı tercih eden katılımcılarımız adına kampüste hatıra fidanı dikilecektir.')" class="text-xs font-title font-bold text-brand-emerald group-hover:text-brand-darkGreen inline-flex items-center gap-1">
+              <span>İncele</span>
+              <i class="fa-solid fa-arrow-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
+            </button>
+            <span class="text-[10px] text-slate-400 font-medium">#Duyuru-02</span>
+          </div>
+        </div>
+
+        <div class="notice-card reveal-delay-2 w-full bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col justify-between group transform hover:-translate-y-1.5">
+          <div>
+            <div class="relative h-44 sm:h-40 w-full overflow-hidden bg-slate-100">
+              <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=600&q=80" alt="Bildiriler Kitabı ve İndeks" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            </div>
+            <div class="p-4 sm:p-5">
+              <span class="text-[11px] text-slate-400 block mb-1.5">
+                <i class="fa-regular fa-clock mr-1"></i>10 Ekim 2026
+              </span>
+              <h3 class="font-title font-bold text-sm sm:text-base text-slate-900 group-hover:text-brand-emerald transition-colors line-clamp-2 leading-snug">
+                Bildiriler Kitabı ve İndeks Anlaşmaları
+              </h3>
+              <p class="text-xs text-slate-500 mt-2 line-clamp-2 leading-relaxed">
+                Hakem kurulunca kabul edilen tam metin bildiriler uluslararası ISBN tescilli e-kitapta yer alacaktır.
+              </p>
+            </div>
+          </div>
+          <div class="px-4 sm:px-5 pb-4 pt-2 border-t border-slate-100/80 flex items-center justify-between">
+            <button onclick="openNoticeModal('Bildiriler Kitabı ve İndeks Anlaşmaları', 'Tam metinler 15 Mart 2027 tarihine kadar sisteme yüklenecek ve açık erişimli olarak dijital kütüphanemizde yayınlanacaktır.')" class="text-xs font-title font-bold text-brand-emerald group-hover:text-brand-darkGreen inline-flex items-center gap-1">
+              <span>İncele</span>
+              <i class="fa-solid fa-arrow-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
+            </button>
+            <span class="text-[10px] text-slate-400 font-medium">#Duyuru-03</span>
+          </div>
+        </div>
+
+        <div class="notice-card reveal-delay-3 w-full bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 flex flex-col justify-between group transform hover:-translate-y-1.5">
+          <div>
+            <div class="relative h-44 sm:h-40 w-full overflow-hidden bg-slate-100">
+              <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80" alt="Genç Araştırmacı Çalıştayları" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+            </div>
+            <div class="p-4 sm:p-5">
+              <span class="text-[11px] text-slate-400 block mb-1.5">
+                <i class="fa-regular fa-clock mr-1"></i>01 Ekim 2026
+              </span>
+              <h3 class="font-title font-bold text-sm sm:text-base text-slate-900 group-hover:text-brand-emerald transition-colors line-clamp-2 leading-snug">
+                Genç Araştırmacı ve Öğrenci Çalıştayları
+              </h3>
+              <p class="text-xs text-slate-500 mt-2 line-clamp-2 leading-relaxed">
+                Sempozyum paralelinde lise ve BİLSEM öğrencilerine yönelik iklim atölyeleri takvimi açıklandı.
+              </p>
+            </div>
+          </div>
+          <div class="px-4 sm:px-5 pb-4 pt-2 border-t border-slate-100/80 flex items-center justify-between">
+            <button onclick="openNoticeModal('Genç Araştırmacı ve Öğrenci Çalıştayları', 'Atölye kayıtları kontenjanla sınırlı olup, danışman öğretmenler eşliğinde grup başvuruları kabul edilmektedir.')" class="text-xs font-title font-bold text-brand-emerald group-hover:text-brand-darkGreen inline-flex items-center gap-1">
+              <span>İncele</span>
+              <i class="fa-solid fa-arrow-right text-[10px] group-hover:translate-x-1 transition-transform"></i>
+            </button>
+            <span class="text-[10px] text-slate-400 font-medium">#Duyuru-04</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 5. FAALİYET TAKVİMİ ==================== -->
+  <section id="takvim" class="py-16 sm:py-20 bg-white relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+      <div class="reveal-heading mb-14 pb-4 border-b border-slate-200/80">
+        <h2 class="text-2xl sm:text-3xl font-title font-extrabold text-slate-800 tracking-wide">
+          Faaliyet Takvimi
+        </h2>
+        <div class="w-14 h-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full mt-2.5"></div>
+      </div>
+
+      <div class="max-w-4xl mx-auto relative">
+        <div class="absolute left-6 md:left-1/2 top-8 bottom-8 w-0.5 bg-slate-300 md:-translate-x-1/2"></div>
+
+        <div class="space-y-12 sm:space-y-14">
+
+          <!-- 1. ADIM -->
+          <div class="timeline-item relative flex flex-col md:flex-row items-center justify-between group">
+            <div class="w-full md:w-1/2 pl-14 md:pl-0 md:pr-10 flex md:justify-end items-center relative z-10">
+              <div class="w-20 h-20 rounded-full bg-violet-100 border-2 border-violet-200 flex items-center justify-center text-violet-600 shadow-sm transition-transform duration-300 group-hover:scale-105 shrink-0">
+                <i class="fa-regular fa-envelope-open text-2xl"></i>
+              </div>
+              <div class="hidden md:block absolute right-0 top-1/2 w-10 h-0.5 bg-violet-300 -translate-y-1/2 z-0"></div>
+            </div>
+            <div class="absolute left-6 md:left-1/2 -translate-x-1/2 top-8 md:top-1/2 md:-translate-y-1/2 w-5 h-5 rounded-full bg-white border-4 border-violet-500 shadow-sm z-20"></div>
+            <div class="w-full md:w-1/2 pl-14 md:pl-10 mt-3 md:mt-0 relative z-10">
+              <div class="hidden md:block absolute left-0 top-1/2 w-10 h-0.5 bg-violet-300 -translate-y-1/2 z-0"></div>
+              <div class="bg-violet-50/90 border border-violet-200/80 p-4 sm:p-5 rounded-2xl shadow-sm transition-all hover:shadow-md">
+                <h3 class="font-title font-bold text-sm sm:text-base text-slate-900 tracking-wide uppercase">BAŞVURULARIN ALINMASI</h3>
+                <p class="text-xs text-slate-600 mt-1">Sempozyum için başvuruların alınması</p>
+                <span class="inline-block mt-2.5 text-xs font-bold text-violet-800 bg-violet-200/60 px-2.5 py-0.5 rounded-md">5 Ekim 2026 – 1 Ocak 2027</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. ADIM -->
+          <div class="timeline-item relative flex flex-col md:flex-row items-center justify-between group">
+            <div class="w-full md:w-1/2 pl-14 md:pl-0 md:pr-10 order-2 md:order-1 mt-3 md:mt-0 md:text-right relative z-10">
+              <div class="hidden md:block absolute right-0 top-1/2 w-10 h-0.5 bg-emerald-300 -translate-y-1/2 z-0"></div>
+              <div class="bg-emerald-50/90 border border-emerald-200/80 p-4 sm:p-5 rounded-2xl shadow-sm transition-all hover:shadow-md">
+                <h3 class="font-title font-bold text-sm sm:text-base text-slate-900 tracking-wide uppercase">DEĞERLENDİRME & SONUÇLAR</h3>
+                <p class="text-xs text-slate-600 mt-1">Başvuruların değerlendirilmesi ve sonuçların duyurulması</p>
+                <span class="inline-block mt-2.5 text-xs font-bold text-emerald-800 bg-emerald-200/60 px-2.5 py-0.5 rounded-md">5 Şubat 2027</span>
+              </div>
+            </div>
+            <div class="absolute left-6 md:left-1/2 -translate-x-1/2 top-8 md:top-1/2 md:-translate-y-1/2 w-5 h-5 rounded-full bg-white border-4 border-emerald-500 shadow-sm z-20"></div>
+            <div class="w-full md:w-1/2 pl-14 md:pl-10 order-1 md:order-2 flex items-center relative z-10">
+              <div class="hidden md:block absolute left-0 top-1/2 w-10 h-0.5 bg-emerald-300 -translate-y-1/2 z-0"></div>
+              <div class="w-20 h-20 rounded-full bg-emerald-100 border-2 border-emerald-200 flex items-center justify-center text-emerald-600 shadow-sm transition-transform duration-300 group-hover:scale-105 shrink-0">
+                <i class="fa-solid fa-clipboard-check text-2xl"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. ADIM -->
+          <div class="timeline-item relative flex flex-col md:flex-row items-center justify-between group">
+            <div class="w-full md:w-1/2 pl-14 md:pl-0 md:pr-10 flex md:justify-end items-center relative z-10">
+              <div class="w-20 h-20 rounded-full bg-rose-100 border-2 border-rose-200 flex items-center justify-center text-rose-500 shadow-sm transition-transform duration-300 group-hover:scale-105 shrink-0">
+                <i class="fa-regular fa-calendar-check text-2xl"></i>
+              </div>
+              <div class="hidden md:block absolute right-0 top-1/2 w-10 h-0.5 bg-rose-300 -translate-y-1/2 z-0"></div>
+            </div>
+            <div class="absolute left-6 md:left-1/2 -translate-x-1/2 top-8 md:top-1/2 md:-translate-y-1/2 w-5 h-5 rounded-full bg-white border-4 border-rose-500 shadow-sm z-20"></div>
+            <div class="w-full md:w-1/2 pl-14 md:pl-10 mt-3 md:mt-0 relative z-10">
+              <div class="hidden md:block absolute left-0 top-1/2 w-10 h-0.5 bg-rose-300 -translate-y-1/2 z-0"></div>
+              <div class="bg-rose-50/90 border border-rose-200/80 p-4 sm:p-5 rounded-2xl shadow-sm transition-all hover:shadow-md">
+                <h3 class="font-title font-bold text-sm sm:text-base text-slate-900 tracking-wide uppercase">TEYİT VE YEDEKLER</h3>
+                <p class="text-xs text-slate-600 mt-1">Sunum yapmak üzere katılacak kişilerin teyit edilmesi ve yedeklerin belirlenmesi</p>
+                <span class="inline-block mt-2.5 text-xs font-bold text-rose-800 bg-rose-200/60 px-2.5 py-0.5 rounded-md">12 Şubat 2027</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. ADIM -->
+          <div class="timeline-item relative flex flex-col md:flex-row items-center justify-between group">
+            <div class="w-full md:w-1/2 pl-14 md:pl-0 md:pr-10 order-2 md:order-1 mt-3 md:mt-0 md:text-right relative z-10">
+              <div class="hidden md:block absolute right-0 top-1/2 w-10 h-0.5 bg-amber-300 -translate-y-1/2 z-0"></div>
+              <div class="bg-amber-50/90 border border-amber-200/80 p-4 sm:p-5 rounded-2xl shadow-sm transition-all hover:shadow-md">
+                <h3 class="font-title font-bold text-sm sm:text-base text-slate-900 tracking-wide uppercase">BİLDİRİ TAM METİNLERİ</h3>
+                <p class="text-xs text-slate-600 mt-1">Bildiri tam metinlerinin gönderilmesi</p>
+                <span class="inline-block mt-2.5 text-xs font-bold text-amber-800 bg-amber-200/60 px-2.5 py-0.5 rounded-md">15 Mart 2027</span>
+              </div>
+            </div>
+            <div class="absolute left-6 md:left-1/2 -translate-x-1/2 top-8 md:top-1/2 md:-translate-y-1/2 w-5 h-5 rounded-full bg-white border-4 border-amber-500 shadow-sm z-20"></div>
+            <div class="w-full md:w-1/2 pl-14 md:pl-10 order-1 md:order-2 flex items-center relative z-10">
+              <div class="hidden md:block absolute left-0 top-1/2 w-10 h-0.5 bg-amber-300 -translate-y-1/2 z-0"></div>
+              <div class="w-20 h-20 rounded-full bg-amber-100 border-2 border-amber-200 flex items-center justify-center text-amber-600 shadow-sm transition-transform duration-300 group-hover:scale-105 shrink-0">
+                <i class="fa-solid fa-book-open text-2xl"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. ADIM -->
+          <div class="timeline-item relative flex flex-col md:flex-row items-center justify-between group">
+            <div class="w-full md:w-1/2 pl-14 md:pl-0 md:pr-10 flex md:justify-end items-center relative z-10">
+              <div class="w-20 h-20 rounded-full bg-orange-100 border-2 border-orange-200 flex items-center justify-center text-orange-600 shadow-sm transition-transform duration-300 group-hover:scale-105 shrink-0">
+                <i class="fa-solid fa-layer-group text-2xl"></i>
+              </div>
+              <div class="hidden md:block absolute right-0 top-1/2 w-10 h-0.5 bg-orange-300 -translate-y-1/2 z-0"></div>
+            </div>
+            <div class="absolute left-6 md:left-1/2 -translate-x-1/2 top-8 md:top-1/2 md:-translate-y-1/2 w-5 h-5 rounded-full bg-white border-4 border-orange-500 shadow-sm z-20"></div>
+            <div class="w-full md:w-1/2 pl-14 md:pl-10 mt-3 md:mt-0 relative z-10">
+              <div class="hidden md:block absolute left-0 top-1/2 w-10 h-0.5 bg-orange-300 -translate-y-1/2 z-0"></div>
+              <div class="bg-orange-50/90 border border-orange-200/80 p-4 sm:p-5 rounded-2xl shadow-sm transition-all hover:shadow-md">
+                <h3 class="font-title font-bold text-sm sm:text-base text-slate-900 tracking-wide uppercase">BİLDİRİLER KİTABI</h3>
+                <p class="text-xs text-slate-600 mt-1">Bildirilerin kitap haline getirilmesi ve yayımlanması</p>
+                <span class="inline-block mt-2.5 text-xs font-bold text-orange-800 bg-orange-200/60 px-2.5 py-0.5 rounded-md">30 Nisan 2027</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 6. ADIM -->
+          <div class="timeline-item relative flex flex-col md:flex-row items-center justify-between group">
+            <div class="w-full md:w-1/2 pl-14 md:pl-0 md:pr-10 order-2 md:order-1 mt-3 md:mt-0 md:text-right relative z-10">
+              <div class="hidden md:block absolute right-0 top-1/2 w-10 h-0.5 bg-emerald-400 -translate-y-1/2 z-0"></div>
+              <div class="bg-emerald-50/90 border border-emerald-200/80 p-4 sm:p-5 rounded-2xl shadow-sm transition-all hover:shadow-md">
+                <h3 class="font-title font-bold text-sm sm:text-base text-slate-900 tracking-wide uppercase">SEMPOZYUMUN GERÇEKLEŞMESİ</h3>
+                <div class="text-2xl sm:text-3xl font-title font-black text-emerald-700 my-1">25/26</div>
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-700">MAYIS 2027</p>
+                <p class="text-[11px] text-slate-500 mt-1">Bilgi, inovasyon ve fikirlerin buluşma noktası</p>
+              </div>
+            </div>
+            <div class="absolute left-6 md:left-1/2 -translate-x-1/2 top-8 md:top-1/2 md:-translate-y-1/2 w-5 h-5 rounded-full bg-white border-4 border-emerald-600 shadow-sm z-20"></div>
+            <div class="w-full md:w-1/2 pl-14 md:pl-10 order-1 md:order-2 flex items-center relative z-10">
+              <div class="hidden md:block absolute left-0 top-1/2 w-10 h-0.5 bg-emerald-400 -translate-y-1/2 z-0"></div>
+              <div class="w-20 h-20 rounded-full bg-emerald-100 border-2 border-emerald-200 flex items-center justify-center text-emerald-700 shadow-sm transition-transform duration-300 group-hover:scale-105 shrink-0">
+                <i class="fa-solid fa-users-rectangle text-2xl"></i>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 6. ALT TEMALAR SLIDER ==================== -->
+  <section id="alt-temalar" class="py-16 sm:py-20 bg-slate-50 border-t border-slate-200 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <div class="reveal-heading flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10 pb-4 border-b border-slate-200">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-title font-extrabold text-slate-900 tracking-tight">
+            İklim Değişikliği Alt Temaları
+          </h2>
+          <div class="w-14 h-1 bg-brand-emerald rounded-full mt-2"></div>
+        </div>
+
+        <div class="flex items-center gap-2 self-end sm:self-auto">
+          <button id="prevThemeBtn" aria-label="Önceki Temalar" class="w-10 h-10 rounded-xl bg-white border border-slate-300 text-slate-700 hover:text-white hover:bg-brand-emerald hover:border-brand-emerald shadow-sm flex items-center justify-center transition-all active:scale-95 disabled:opacity-30 disabled:pointer-events-none">
+            <i class="fa-solid fa-chevron-left text-sm"></i>
+          </button>
+          <button id="nextThemeBtn" aria-label="Sonraki Temalar" class="w-10 h-10 rounded-xl bg-white border border-slate-300 text-slate-700 hover:text-white hover:bg-brand-emerald hover:border-brand-emerald shadow-sm flex items-center justify-center transition-all active:scale-95 disabled:opacity-30 disabled:pointer-events-none">
+            <i class="fa-solid fa-chevron-right text-sm"></i>
+          </button>
+        </div>
+      </div>
+
+      <div id="themesSlider" class="reveal flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory no-scrollbar pb-6 pt-2" style="scrollbar-width: none; -ms-overflow-style: none;">
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center text-xl mb-4 group-hover:bg-sky-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-cloud-bolt"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">Aşırı Hava Olayları, İklim Riskleri ve Erken Uyarı Sistemleri</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Fırtına, kuraklık ve sel felaketlerine karşı erken uyarı ve risk modellemeleri.</p>
+          </div>
+          <span class="text-[10px] font-bold text-sky-700 mt-4 block uppercase tracking-wider">#AltTema-01</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-square-root-variable"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">İklim Değişikliğinin Bilimsel Temelleri ve İklim Modelleri</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Atmosfer fiziği, iklim veri analitiği ve geleceğe yönelik simülasyon algoritmaları.</p>
+          </div>
+          <span class="text-[10px] font-bold text-indigo-700 mt-4 block uppercase tracking-wider">#AltTema-02</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl mb-4 group-hover:bg-purple-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-binoculars"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">İklim Senaryoları ve Gelecek Perspektifleri</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Küresel ısınma projeksiyonları, 1.5°C hedefi ve küresel senaryo planları.</p>
+          </div>
+          <span class="text-[10px] font-bold text-purple-700 mt-4 block uppercase tracking-wider">#AltTema-03</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl mb-4 group-hover:bg-teal-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-compass-drafting"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">İklim Değişikliğinde Yeni Yaklaşımlar ve Gelecek Perspektifi</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Disiplinler arası yeni çözüm metodolojileri ve yenilikçi iklim stratejileri.</p>
+          </div>
+          <span class="text-[10px] font-bold text-teal-700 mt-4 block uppercase tracking-wider">#AltTema-04</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl mb-4 group-hover:bg-rose-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-house-chimney-crack"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">İklim Değişikliği ve Afet Yönetimi</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">İklim kökenli afetlere hazırlık, kriz müdahale planları ve kentsel dirençlilik.</p>
+          </div>
+          <span class="text-[10px] font-bold text-rose-700 mt-4 block uppercase tracking-wider">#AltTema-05</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl mb-4 group-hover:bg-emerald-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-frog"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">İklim Değişikliği, Ekosistemler ve Biyoçeşitlilik</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Habitat kayıpları, türlerin göç hareketleri ve karasal-sucul ekolojik dengeler.</p>
+          </div>
+          <span class="text-[10px] font-bold text-emerald-700 mt-4 block uppercase tracking-wider">#AltTema-06</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl mb-4 group-hover:bg-amber-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-tree"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">İklim Değişikliği ve Doğal Kaynakların Korunması</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Toprak sağlığı, orman varlıkları ve yer altı kaynaklarının sürdürülebilir yönetimi.</p>
+          </div>
+          <span class="text-[10px] font-bold text-amber-700 mt-4 block uppercase tracking-wider">#AltTema-07</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center text-xl mb-4 group-hover:bg-cyan-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-wheat-awn"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">Tarım, Gıda ve Su Güvenliği</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Kuraklığa dayanıklı tarım ürünleri, akıllı sulama ve gıda tedarik güvencesi.</p>
+          </div>
+          <span class="text-[10px] font-bold text-cyan-700 mt-4 block uppercase tracking-wider">#AltTema-08</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-water"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">Okyanuslar, Denizler, Kıyı Alanları ve İklim Değişikliği</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Deniz suyu ısınması, asitlenme, kıyı erozyonu ve denizel biyoçeşitlilik.</p>
+          </div>
+          <span class="text-[10px] font-bold text-blue-700 mt-4 block uppercase tracking-wider">#AltTema-09</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-red-50 text-red-600 flex items-center justify-center text-xl mb-4 group-hover:bg-red-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-heart-pulse"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">İklim Değişikliği ve İnsan Sağlığı</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Sıcak hava dalgaları, bulaşıcı hastalık riskleri ve temiz hava hakkı.</p>
+          </div>
+          <span class="text-[10px] font-bold text-red-700 mt-4 block uppercase tracking-wider">#AltTema-10</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-violet-50 text-violet-600 flex items-center justify-center text-xl mb-4 group-hover:bg-violet-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-scale-balanced"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">İklim Adaleti, Eşitsizlikler ve Kırılgan Gruplar</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Dezavantajlı kesimlerin hakları, kuşaklar arası adalet ve kapsayıcı çözümler.</p>
+          </div>
+          <span class="text-[10px] font-bold text-violet-700 mt-4 block uppercase tracking-wider">#AltTema-11</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-xl mb-4 group-hover:bg-orange-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-person-walking-luggage"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">İklim Göçü ve Dezavantajlı Gruplar</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Çevresel faktörlerle zorunlu yer değiştirme, mülteci hakları ve entegrasyon.</p>
+          </div>
+          <span class="text-[10px] font-bold text-orange-700 mt-4 block uppercase tracking-wider">#AltTema-12</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-stone-50 text-stone-600 flex items-center justify-center text-xl mb-4 group-hover:bg-stone-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">İklim Değişikliğinin Sosyal, Kültürel ve Ekonomik Etkileri</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">İş gücü piyasaları, yerel kültürel miras ve makroekonomik risk değerlendirmesi.</p>
+          </div>
+          <span class="text-[10px] font-bold text-stone-700 mt-4 block uppercase tracking-wider">#AltTema-13</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl mb-4 group-hover:bg-emerald-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">İklim Eğitimi ve Sürdürülebilirlik Eğitimi</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Öğretim programlarında ekolojik pedagoji, okul projeleri ve eko-etkinlikler.</p>
+          </div>
+          <span class="text-[10px] font-bold text-emerald-700 mt-4 block uppercase tracking-wider">#AltTema-14</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl mb-4 group-hover:bg-teal-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-bullhorn"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">İklim Okuryazarlığı, İletişimi ve Toplumsal Farkındalık</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Doğru bilgi akışı, kamuoyu kampanyaları ve gençlik hareketlerinin rolü.</p>
+          </div>
+          <span class="text-[10px] font-bold text-teal-700 mt-4 block uppercase tracking-wider">#AltTema-15</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-lime-50 text-lime-600 flex items-center justify-center text-xl mb-4 group-hover:bg-lime-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-city"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">İklim Değişikliği, Kentleşme ve Mekânsal Planlama</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Isı adalarıyla mücadele, akıllı şehir imar planları ve yeşil koridorlar.</p>
+          </div>
+          <span class="text-[10px] font-bold text-lime-700 mt-4 block uppercase tracking-wider">#AltTema-16</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-zinc-50 text-zinc-600 flex items-center justify-center text-xl mb-4 group-hover:bg-zinc-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-building-shield"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">İklim Dirençli Kentler ve Yerel Yönetimler</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Belediyelerin yerel iklim eylem planları ve sürdürülebilir kentsel drenaj.</p>
+          </div>
+          <span class="text-[10px] font-bold text-zinc-700 mt-4 block uppercase tracking-wider">#AltTema-17</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl mb-4 group-hover:bg-emerald-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-seedling"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">Yeşil ve Mavi Altyapı ile Doğa Temelli Çözümler</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Yağmur bahçeleri, göletler, yeşil çatılar ve doğal tampon bölgeler.</p>
+          </div>
+          <span class="text-[10px] font-bold text-emerald-700 mt-4 block uppercase tracking-wider">#AltTema-18</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center text-xl mb-4 group-hover:bg-cyan-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">Kentlerde İklim Değişikliğine Uyum ve Dayanıklılık</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Kentsel altyapıların aşırı sıcaklık ve su baskınlarına karşı güçlendirilmesi.</p>
+          </div>
+          <span class="text-[10px] font-bold text-cyan-700 mt-4 block uppercase tracking-wider">#AltTema-19</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl mb-4 group-hover:bg-amber-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-solar-panel"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">Enerji Dönüşümü, Yenilenebilir Enerji ve Karbonsuzlaşma</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Güneş, rüzgar, yeşil hidrojen ve temiz enerji şebekelerine geçiş modelleri.</p>
+          </div>
+          <span class="text-[10px] font-bold text-amber-700 mt-4 block uppercase tracking-wider">#AltTema-20</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center text-xl mb-4 group-hover:bg-sky-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-microchip"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">İklim Teknolojileri, Yapay Zekâ ve Dijital Çözümler</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Yapay zeka ile karbon hesabı, IoT sensör ağları ve dijital çevre ikizleri.</p>
+          </div>
+          <span class="text-[10px] font-bold text-sky-700 mt-4 block uppercase tracking-wider">#AltTema-21</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-orange-50 text-orange-600 flex items-center justify-center text-xl mb-4 group-hover:bg-orange-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-lightbulb"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">İklim İnovasyonu ve Girişimcilik</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Genç girişimciler için yeşil kuluçka merkezleri ve temiz teknoloji girişimleri.</p>
+          </div>
+          <span class="text-[10px] font-bold text-orange-700 mt-4 block uppercase tracking-wider">#AltTema-22</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl mb-4 group-hover:bg-emerald-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-recycle"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">Döngüsel Ekonomi, Sürdürülebilir Tüketim ve Üretim</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Sıfır atık, endüstriyel simbiyoz, geri dönüşüm ve yaşam döngüsü analizi.</p>
+          </div>
+          <span class="text-[10px] font-bold text-emerald-700 mt-4 block uppercase tracking-wider">#AltTema-23</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl mb-4 group-hover:bg-purple-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-gavel"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">İklim Politikaları, Hukuku ve Yönetişim</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">İklim kanunları, karbon vergisi mevzuatı ve kamu yönetişim modelleri.</p>
+          </div>
+          <span class="text-[10px] font-bold text-purple-700 mt-4 block uppercase tracking-wider">#AltTema-24</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-earth-americas"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">Uluslararası İklim Antlaşmaları ve Küresel İklim Yönetişimi</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Paris Anlaşması, COP zirveleri kararları ve küresel taahhütler.</p>
+          </div>
+          <span class="text-[10px] font-bold text-blue-700 mt-4 block uppercase tracking-wider">#AltTema-25</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl mb-4 group-hover:bg-emerald-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-coins"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">Sürdürülebilirlik Perspektifinden İklim Finansmanı ve Yatırımlar</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Yeşil tahviller, karbon kredileri ve sürdürülebilir ESG fon modelleri.</p>
+          </div>
+          <span class="text-[10px] font-bold text-emerald-700 mt-4 block uppercase tracking-wider">#AltTema-26</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center text-xl mb-4 group-hover:bg-teal-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-arrows-split-up-and-left"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">İklim Değişikliğine Uyum, Azaltım ve Dirençlilik Stratejileri</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Sektörel karbon azaltım hedefleri ve uzun vadeli adaptasyon planları.</p>
+          </div>
+          <span class="text-[10px] font-bold text-teal-700 mt-4 block uppercase tracking-wider">#AltTema-27</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center text-xl mb-4 group-hover:bg-rose-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-hand-holding-heart"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">Kayıp ve Zararlar (Loss and Damage), Adil Geçiş ve İklim Dayanışması</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">İklim krizinden en çok etkilenen coğrafyalar için adil tazmin mekanizmaları.</p>
+          </div>
+          <span class="text-[10px] font-bold text-rose-700 mt-4 block uppercase tracking-wider">#AltTema-28</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl mb-4 group-hover:bg-indigo-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-book-bookmark"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">İklim Değişikliği ve Eğitim Programları</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Disiplinler arası iklim ders içerikleri ve öğrenci temelli atölye modelleri.</p>
+          </div>
+          <span class="text-[10px] font-bold text-indigo-700 mt-4 block uppercase tracking-wider">#AltTema-29</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-lime-50 text-lime-600 flex items-center justify-center text-xl mb-4 group-hover:bg-lime-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-school"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">Yeşil Okul ve Yeşil Eğitim</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Sıfır atıklı okul bahçeleri, enerji üreten eğitim kampüsleri ve yeşil bayrak.</p>
+          </div>
+          <span class="text-[10px] font-bold text-lime-700 mt-4 block uppercase tracking-wider">#AltTema-30</span>
+        </div>
+
+        <div class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(25%-18px)] shrink-0 snap-start bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-xl bg-red-50 text-red-600 flex items-center justify-center text-xl mb-4 group-hover:bg-red-600 group-hover:text-white transition-colors shadow-inner">
+              <i class="fa-solid fa-newspaper"></i>
+            </div>
+            <h3 class="font-title font-bold text-sm sm:text-base text-slate-800 mb-2 leading-snug">İklim Haberciliği</h3>
+            <p class="text-xs text-slate-500 leading-relaxed">Çevre gazeteciliği, doğru veri aktarımı, yanıltıcı yeşil aklama (greenwashing) takibi.</p>
+          </div>
+          <span class="text-[10px] font-bold text-red-700 mt-4 block uppercase tracking-wider">#AltTema-31</span>
+        </div>
+
+      </div>
+
+      <div class="w-full max-w-xs mx-auto mt-4 bg-slate-200 h-1.5 rounded-full overflow-hidden">
+        <div id="themeProgressBar" class="bg-brand-emerald h-full w-1/4 transition-all duration-300 rounded-full"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== İSTATİSTİKLER ==================== -->
+  <section id="istatistikler" class="py-16 sm:py-20 bg-white relative overflow-hidden border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+      <div class="reveal-heading mb-14 pb-4 border-b border-slate-200/80">
+        <h2 class="text-2xl sm:text-3xl font-title font-extrabold text-slate-800 tracking-tight">
+          Rakamlarla Sempozyum
+        </h2>
+        <div class="w-14 h-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full mt-2.5"></div>
+      </div>
+
+      <div class="flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-6 items-center">
+
+        <div class="w-full lg:col-span-3 flex flex-col sm:flex-row lg:flex-col justify-around lg:justify-start gap-8 sm:gap-10 lg:gap-12 text-center lg:text-left order-1">
+
+          <div class="flex flex-col items-center lg:items-start group">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl mb-3 border border-emerald-200 shadow-sm transition-transform duration-300 group-hover:scale-110">
+              <i class="fa-regular fa-file-lines"></i>
+            </div>
+            <span class="stat-number font-title font-black text-4xl sm:text-5xl text-slate-900 tracking-tight">148</span>
+            <span class="text-xs sm:text-sm font-title font-semibold text-slate-500 uppercase tracking-wider mt-1.5">Sözlü Bildiri Başvurusu</span>
+          </div>
+
+          <div class="flex flex-col items-center lg:items-start group">
+            <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl mb-3 border border-amber-200 shadow-sm transition-transform duration-300 group-hover:scale-110">
+              <i class="fa-solid fa-chalkboard-user"></i>
+            </div>
+            <span class="stat-number font-title font-black text-4xl sm:text-5xl text-slate-900 tracking-tight">72</span>
+            <span class="text-xs sm:text-sm font-title font-semibold text-slate-500 uppercase tracking-wider mt-1.5">Poster Bildiri Başvurusu</span>
+          </div>
+
+        </div>
+
+        <div class="reveal-scale w-full lg:col-span-6 flex justify-center order-2 my-2 lg:my-0">
+          <div class="relative max-w-md sm:max-w-lg w-full">
+            <div class="absolute inset-0 bg-gradient-to-tr from-emerald-200/50 via-teal-100/40 to-amber-100/40 rounded-3xl blur-xl transform scale-95 -z-10"></div>
+            <img src="istatistik_resmi.jpg" alt="ESGES Genç İklim Araştırmacıları ve Çalışma Ekibi" class="w-full h-64 sm:h-80 lg:h-96 object-cover rounded-3xl shadow-xl border border-slate-100/90 transition-transform duration-500 hover:scale-[1.01]">
+          </div>
+        </div>
+
+        <div class="w-full lg:col-span-3 flex flex-col sm:flex-row lg:flex-col justify-around lg:justify-start gap-8 sm:gap-10 lg:gap-12 text-center lg:text-right order-3">
+
+          <div class="flex flex-col items-center lg:items-end group">
+            <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center text-xl mb-3 border border-sky-200 shadow-sm transition-transform duration-300 group-hover:scale-110">
+              <i class="fa-regular fa-clock"></i>
+            </div>
+            <span id="activeHoursCounter" class="stat-number font-title font-black text-4xl sm:text-5xl text-slate-900 tracking-tight">580</span>
+            <span class="text-xs sm:text-sm font-title font-semibold text-slate-500 uppercase tracking-wider mt-1.5">Saat Kesintisiz Aktif</span>
+          </div>
+
+          <div class="flex flex-col items-center lg:items-end group">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl mb-3 border border-indigo-200 shadow-sm transition-transform duration-300 group-hover:scale-110">
+              <i class="fa-solid fa-school"></i>
+            </div>
+            <span class="stat-number font-title font-black text-4xl sm:text-5xl text-slate-900 tracking-tight">42</span>
+            <span class="text-xs sm:text-sm font-title font-semibold text-slate-500 uppercase tracking-wider mt-1.5">Katılımcı Okul & Kurum</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== 7. SIKÇA SORULAN SORULAR ==================== -->
+ <!-- ========================================== -->
+<!-- 7. SIKÇA SORULAN SORULAR BÖLÜMÜ BAŞLANGICI  -->
+<!-- ========================================== -->
+<section id="sss" class="py-16 sm:py-20 bg-slate-50 border-t border-slate-200 relative overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    
+    <!-- Başlık Alanı -->
+    <div class="mb-14 pb-4 border-b border-slate-200/80">
+      <h2 class="text-2xl sm:text-3xl font-title font-extrabold text-slate-800 tracking-wide uppercase">
+        SIKÇA SORULAN SORULAR
+      </h2>
+      <div class="w-14 h-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full mt-2.5"></div>
+    </div>
+
+    <!-- Akordeon / SSS İçerik Alanı -->
+    <div class="max-w-4xl space-y-4">
+      
+      <!-- Soru 1 -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden transition-all duration-200 hover:border-emerald-300">
+        <button 
+          onclick="toggleFaq(this)" 
+          class="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-title font-bold text-slate-800 hover:text-emerald-700 transition-colors"
+        >
+          <span class="text-sm sm:text-base">Kimler başvuru yapabilir?</span>
+          <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-300"></i>
+        </button>
+        <div class="faq-answer hidden px-6 pb-5 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100">
+          Eskişehir’de bulunan proje okulları, Anadolu liseleri ile BİLSEM olmak üzere 19 okulun öğrencileri kendi okul idaresine başvuru yaparak, e-mail aracılığıyla/web sayfasından başvuru yaparak katılabilir.
+        </div>
+      </div>
+
+      <!-- Soru 2 -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden transition-all duration-200 hover:border-emerald-300">
+        <button 
+          onclick="toggleFaq(this)" 
+          class="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-title font-bold text-slate-800 hover:text-emerald-700 transition-colors"
+        >
+          <span class="text-sm sm:text-base">Bildiri başvurusu nasıl yapabilirim?</span>
+          <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-300"></i>
+        </button>
+        <div class="faq-answer hidden px-6 pb-5 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100">
+          Bu proje Eskişehir’de proje okulları arasında yapılmaktadır. Bu okullarda okuyan öğrenciler okulundaki ilgili öğretmene veya müdür yardımcısına giderek başvuru yapabilir. Ayrıca proje web sayfasında bildiri menüsü tıklanarak, yönergeler takip edilebilir.
+        </div>
+      </div>
+
+      <!-- Soru 3 -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden transition-all duration-200 hover:border-emerald-300">
+        <button 
+          onclick="toggleFaq(this)" 
+          class="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-title font-bold text-slate-800 hover:text-emerald-700 transition-colors"
+        >
+          <span class="text-sm sm:text-base">Etkileyici sunum yapma teknikleri nelerdir?</span>
+          <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-300"></i>
+        </button>
+        <div class="faq-answer hidden px-6 pb-5 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100">
+          Etkileyici sunum yapmak için sizler için oluşturduğumuz dokümana bakabilirsiniz. <a href="#" class="text-emerald-600 font-semibold hover:underline">Ulaşmak için tıklayınız.</a>
+        </div>
+      </div>
+
+      <!-- Soru 4 -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden transition-all duration-200 hover:border-emerald-300">
+        <button 
+          onclick="toggleFaq(this)" 
+          class="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-title font-bold text-slate-800 hover:text-emerald-700 transition-colors"
+        >
+          <span class="text-sm sm:text-base">Bildiri hazırlama kuralları nelerdir?</span>
+          <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-300"></i>
+        </button>
+        <div class="faq-answer hidden px-6 pb-5 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100">
+          <p class="mb-2">Web sayfamızda yer alan bildiri ve poster hazırlama kılavuzundan yararlanabilirsiniz. Dikkat edilmesi gereken önemli noktalar:</p>
+          <ul class="list-disc list-inside space-y-1.5 pl-1">
+            <li>Araştırmanın yazı dilinin sade ve akıcı ve anlaşılır şekilde kaleme alınması gerekmektedir.</li>
+            <li>Times New Roman, 12 punto, 1,5 satır aralığı ve iki yana yasla formatında yazılacaktır. Tablo/şekil/grafiklerde puntolar araştırmacının tercihine bırakılmıştır.</li>
+            <li>Sayfa numaralandırması; kapak, içindekiler listesi, tablolar/şekiller/grafikler listesinin olduğu bölümlerde küçük Romen rakamlarıyla (i, ii, iii), giriş bölümünden sonra ise doğal sayıyla (1, 2, 3, 4, ...) yapılacaktır. Sayfa numaralarının önüne ve arkasına çizgi vb. bir karakter konulmamalıdır.</li>
+            <li>Sayfa düzeni; üst ve alt boşluk 3 cm, sol boşluk 4 cm ve sağ boşluk 2,5 cm olacaktır.</li>
+            <li>Metin içinde dipnotlar (kullanılacaksa) 8 punto ile sayfanın en alt kısmında yer alacaktır.</li>
+            <li>Tablo/şekil/grafiklerin isimleri ve numaraları mutlaka metin içinde ve tablo/şekil/grafikler listesinde yer alacaktır.</li>
+            <li>Yararlanılan tüm kaynaklar alfabetik sıraya göre kaynakça bölümünde yer alacaktır.</li>
+            <li>APA 7- Yazım Kuralları ve Kaynak Gösterme kuralları geçerlidir.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Soru 5 -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden transition-all duration-200 hover:border-emerald-300">
+        <button 
+          onclick="toggleFaq(this)" 
+          class="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-title font-bold text-slate-800 hover:text-emerald-700 transition-colors"
+        >
+          <span class="text-sm sm:text-base">Bir bildiride en fazla kaç öğrenci ismi yazılabilir?</span>
+          <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-300"></i>
+        </button>
+        <div class="faq-answer hidden px-6 pb-5 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100">
+          En fazla 3 öğrencinin ismine yer verilebilir.
+        </div>
+      </div>
+
+      <!-- Soru 6 -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden transition-all duration-200 hover:border-emerald-300">
+        <button 
+          onclick="toggleFaq(this)" 
+          class="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-title font-bold text-slate-800 hover:text-emerald-700 transition-colors"
+        >
+          <span class="text-sm sm:text-base">Bir öğrenci birden fazla bildiri ile sempozyuma katılım sağlayabilir mi?</span>
+          <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-300"></i>
+        </button>
+        <div class="faq-answer hidden px-6 pb-5 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100">
+          Evet. Bir öğrenci birden fazla bildiri sunumu gerçekleştirebilir.
+        </div>
+      </div>
+
+      <!-- Soru 7 -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden transition-all duration-200 hover:border-emerald-300">
+        <button 
+          onclick="toggleFaq(this)" 
+          class="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-title font-bold text-slate-800 hover:text-emerald-700 transition-colors"
+        >
+          <span class="text-sm sm:text-base">Kabul edilen bildiriler nasıl duyurulacak?</span>
+          <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-300"></i>
+        </button>
+        <div class="faq-answer hidden px-6 pb-5 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100">
+          Katılımcılara sempozyum mail adresi ile geri bildirim verilecek olup, kabul edilen bildiriler sempozyum web sayfasından da duyurulacaktır.
+        </div>
+      </div>
+
+      <!-- Soru 8 -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden transition-all duration-200 hover:border-emerald-300">
+        <button 
+          onclick="toggleFaq(this)" 
+          class="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-title font-bold text-slate-800 hover:text-emerald-700 transition-colors"
+        >
+          <span class="text-sm sm:text-base">Poster sunumlar sempozyum tam metin kitabında yer alacak mı?</span>
+          <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-300"></i>
+        </button>
+        <div class="faq-answer hidden px-6 pb-5 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100">
+          Sadece bildiri tam metinlerine tam metin kitabında yer verilecektir.
+        </div>
+      </div>
+
+      <!-- Soru 9 -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden transition-all duration-200 hover:border-emerald-300">
+        <button 
+          onclick="toggleFaq(this)" 
+          class="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-title font-bold text-slate-800 hover:text-emerald-700 transition-colors"
+        >
+          <span class="text-sm sm:text-base">Poster sunumlar için tam metin yazılacak mı?</span>
+          <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-300"></i>
+        </button>
+        <div class="faq-answer hidden px-6 pb-5 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100">
+          Poster formatında gerekli düzenlemeler yapılacak olup, intihal incelemesi nedeniyle tam metin formatı istenecektir.
+        </div>
+      </div>
+
+      <!-- Soru 10 -->
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden transition-all duration-200 hover:border-emerald-300">
+        <button 
+          onclick="toggleFaq(this)" 
+          class="w-full px-6 py-4 text-left flex items-center justify-between gap-4 font-title font-bold text-slate-800 hover:text-emerald-700 transition-colors"
+        >
+          <span class="text-sm sm:text-base">Sunumu ismi geçen bildiri sahiplerinin hepsi mi sunum yapacak yoksa içlerinden sadece bir öğrenci mi sunum yapacak?</span>
+          <i class="fa-solid fa-chevron-down text-xs text-slate-400 transition-transform duration-300"></i>
+        </button>
+        <div class="faq-answer hidden px-6 pb-5 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100">
+          Mücbir sebepler hariç bildiri sahibi tüm öğrencilerin ortak sunum yapmaları beklenmektedir.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- ========================================== -->
+<!-- 7. SIKÇA SORULAN SORULAR BÖLÜMÜ BİTTİ       -->
+<!-- ========================================== -->
+
+  <!-- ==================== 8. PAYDAŞLARIMIZ ==================== -->
+  <section id="paydaslar" class="py-16 sm:py-20 bg-slate-50 relative overflow-hidden border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+      <div class="reveal-heading mb-12 pb-4 border-b border-slate-200/80">
+        <h2 class="text-2xl sm:text-3xl font-title font-extrabold text-slate-800 tracking-tight">
+          Paydaşlarımız
+        </h2>
+        <div class="w-14 h-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full mt-2.5"></div>
+      </div>
+
+      <div class="reveal relative w-full">
+
+        <div class="pointer-events-none absolute left-0 inset-y-0 w-12 sm:w-16 bg-gradient-to-r from-slate-50 to-transparent z-10"></div>
+        <div class="pointer-events-none absolute right-0 inset-y-0 w-12 sm:w-16 bg-gradient-to-l from-slate-50 to-transparent z-10"></div>
+
+        <div id="partnersTrack" class="flex gap-4 sm:gap-6 overflow-x-auto scroll-smooth py-4 px-2 cursor-grab active:cursor-grabbing select-none" style="scrollbar-width: none; -ms-overflow-style: none;">
+
+          <div class="shrink-0 w-[calc(50%-8px)] sm:w-44 h-28 sm:h-32 bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center p-3 sm:p-4 group">
+            <img src="okul1.png" alt="Beylikova Fen Lisesi" class="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105">
+          </div>
+
+          <div class="shrink-0 w-[calc(50%-8px)] sm:w-44 h-28 sm:h-32 bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center p-3 sm:p-4 group">
+            <img src="okul2.jpg" alt="Cemal Mümtaz Sosyal Bilimler Lisesi" class="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105">
+          </div>
+
+          <div class="shrink-0 w-[calc(50%-8px)] sm:w-44 h-28 sm:h-32 bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center p-3 sm:p-4 group">
+            <img src="okul3.jpg" alt="Eskişehir Borsa İstanbul Fen Lisesi" class="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105">
+          </div>
+
+          <div class="shrink-0 w-[calc(50%-8px)] sm:w-44 h-28 sm:h-32 bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center p-3 sm:p-4 group">
+            <img src="okul4.png" alt="Uluslararası Cevat Ülger AİHL" class="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105">
+          </div>
+
+          <div class="shrink-0 w-[calc(50%-8px)] sm:w-44 h-28 sm:h-32 bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center p-3 sm:p-4 group">
+            <img src="okul5.jpg" alt="Şehit Mehmet Şengül Fen Lisesi" class="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105">
+          </div>
+
+          <div class="shrink-0 w-[calc(50%-8px)] sm:w-44 h-28 sm:h-32 bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center p-3 sm:p-4 group">
+            <img src="okul6.jpg" alt="Eskişehir Anadolu İmam Hatip Lisesi" class="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105">
+          </div>
+
+          <div class="shrink-0 w-[calc(50%-8px)] sm:w-44 h-28 sm:h-32 bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center p-3 sm:p-4 group">
+            <img src="okul7.png" alt="Eskişehir Anadolu Lisesi" class="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105">
+          </div>
+
+          <div class="shrink-0 w-[calc(50%-8px)] sm:w-44 h-28 sm:h-32 bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center p-3 sm:p-4 group">
+            <img src="okul8.png" alt="Eskişehir Fatih Fen Lisesi" class="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105">
+          </div>
+
+          <div class="shrink-0 w-[calc(50%-8px)] sm:w-44 h-28 sm:h-32 bg-white rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center p-3 sm:p-4 group">
+            <img src="okul9.JPG" alt="ETİ Sosyal Bilimler Lisesi" class="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105">
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== 9. FOOTER ==================== -->
+  <footer id="iletisim" class="bg-slate-900 text-slate-300 relative overflow-hidden border-t border-slate-800">
+    <div class="h-1.5 w-full bg-gradient-to-r from-emerald-600 via-teal-500 to-amber-500"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
+
+        <div class="lg:col-span-4 space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-600/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
+              <i class="fa-solid fa-leaf text-lg"></i>
+            </div>
+            <div>
+              <span class="block font-title font-extrabold text-white text-lg tracking-wider">ESGES 2027</span>
+              <span class="text-[11px] text-emerald-400 font-medium block">Eskişehir Geleceğin Sesi Sempozyumu</span>
+            </div>
+          </div>
+
+          <p class="text-xs text-slate-400 leading-relaxed text-justify pr-2">
+            Eskişehir İl Millî Eğitim Müdürlüğü koordinasyonunda, genç bilim insanlarının geleceğe etki edecek fen ve sosyal bilimler alanındaki araştırmalarını ortaya koymayı amaçlayan öğrenci sempozyumudur.
+          </p>
+
+          <div class="flex items-center gap-2.5 pt-2">
+            <a href="#" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-emerald-600 text-slate-300 hover:text-white flex items-center justify-center transition-all text-xs border border-slate-700">
+              <i class="fa-brands fa-x-twitter"></i>
+            </a>
+            <a href="#" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-emerald-600 text-slate-300 hover:text-white flex items-center justify-center transition-all text-xs border border-slate-700">
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="#" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-emerald-600 text-slate-300 hover:text-white flex items-center justify-center transition-all text-xs border border-slate-700">
+              <i class="fa-brands fa-youtube"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-2 space-y-4">
+          <h4 class="font-title font-bold text-white text-xs uppercase tracking-widest flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span>KURUMSAL</span>
+          </h4>
+          <ul class="space-y-2.5 text-xs">
+            <li>
+              <button onclick="openModal('textModal')" class="hover:text-emerald-400 transition-colors flex items-center gap-1.5 text-left">
+                <i class="fa-solid fa-chevron-right text-[9px] text-slate-500"></i>
+                <span>Çağrı Metni</span>
+              </button>
+            </li>
+            <li>
+              <a href="#alt-temalar" class="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+                <i class="fa-solid fa-chevron-right text-[9px] text-slate-500"></i>
+                <span>Konular</span>
+              </a>
+            </li>
+            <li>
+              <a href="#sss" class="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+                <i class="fa-solid fa-chevron-right text-[9px] text-slate-500"></i>
+                <span>Sıkça Sorulanlar</span>
+              </a>
+            </li>
+            <li>
+              <a href="#iletisim" class="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+                <i class="fa-solid fa-chevron-right text-[9px] text-slate-500"></i>
+                <span>İletişim Formu ve Harita</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="lg:col-span-2 space-y-4">
+          <h4 class="font-title font-bold text-white text-xs uppercase tracking-widest flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-teal-500"></span>
+            <span>SAYFALAR</span>
+          </h4>
+          <ul class="space-y-2.5 text-xs">
+            <li>
+              <a href="duyurular.html" class="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+                <i class="fa-solid fa-chevron-right text-[9px] text-slate-500"></i>
+                <span>Haberler</span>
+              </a>
+            </li>
+            <li>
+              <a href="kvkk.html" class="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+                <i class="fa-solid fa-chevron-right text-[9px] text-slate-500"></i>
+                <span>KVKK Aydınlatma Metni</span>
+              </a>
+            </li>
+            <li>
+              <a href="cerez-politikasi.html" class="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+                <i class="fa-solid fa-chevron-right text-[9px] text-slate-500"></i>
+                <span>Çerez Politikası</span>
+              </a>
+            </li>
+            <li>
+              <a href="gizlilik.html" class="hover:text-emerald-400 transition-colors flex items-center gap-1.5">
+                <i class="fa-solid fa-chevron-right text-[9px] text-slate-500"></i>
+                <span>Gizlilik Sözleşmesi</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="lg:col-span-4 space-y-4">
+          <h4 class="font-title font-bold text-white text-xs uppercase tracking-widest flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+            <span>İLETİŞİM BİLGİLERİ</span>
+          </h4>
+
+          <div class="space-y-3 text-xs text-slate-400">
+            <div class="flex items-start gap-2.5">
+              <i class="fa-solid fa-location-dot text-emerald-400 mt-0.5 shrink-0 text-sm"></i>
+              <span>Büyükdere Mahallesi Atatürk Bulvarı No 247 26040 Odunpazarı / Eskişehir</span>
+            </div>
+
+            <div class="flex items-start gap-2.5">
+              <i class="fa-solid fa-phone text-emerald-400 mt-0.5 shrink-0 text-xs"></i>
+              <div>
+                <span class="block text-slate-200 font-medium">Telefon :</span>
+                <span class="text-slate-400 text-[11px] leading-relaxed block">
+                  0 222 280 26 00 &nbsp;|&nbsp; 0 222 280 26 29 &nbsp;|&nbsp; 0 222 280 26 74
+                </span>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-2.5">
+              <i class="fa-solid fa-fax text-emerald-400 mt-0.5 shrink-0 text-xs"></i>
+              <div>
+                <span class="inline text-slate-200 font-medium">Belgegeçer : </span>
+                <span class="text-slate-400 text-[11px]">0 222 280 27 28</span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2.5 pt-1">
+              <i class="fa-solid fa-envelope text-emerald-400 shrink-0 text-xs"></i>
+              <a href="mailto:esges2026@gmail.com" class="text-emerald-400 hover:underline font-semibold text-xs">
+                esges2026@gmail.com
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="mt-12 pt-6 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-slate-500">
+        <p>© 2027 ESGES - Eskişehir Geleceğin Sesi Sempozyumu. Tüm hakları saklıdır.</p>
+        <p class="flex items-center gap-1.5">
+          <span>Eskişehir İl Millî Eğitim Müdürlüğü</span>
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- ==================== MODAL 1: ÇAĞRI METNİ ==================== -->
+  <div id="textModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-sm hidden p-4">
+    <div class="bg-white rounded-3xl max-w-3xl w-full max-h-[88vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+
+      <div class="p-5 sm:p-6 bg-gradient-to-r from-emerald-800 to-teal-800 text-white flex items-center justify-between shrink-0">
+        <div>
+          <span class="text-xs font-title font-bold text-emerald-300 uppercase tracking-widest">Resmi Belge</span>
+          <h3 class="font-title font-extrabold text-lg sm:text-xl mt-0.5">ESKİŞEHİR GELECEĞİN SESİ SEMPOZYUMU (ESGES)</h3>
+        </div>
+        <button onclick="closeModal('textModal')" class="text-white/80 hover:text-white p-2 text-xl transition-colors">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="p-6 sm:p-8 overflow-y-auto space-y-4 text-xs sm:text-sm text-slate-700 leading-relaxed font-sans text-justify">
+
+        <p class="font-title font-bold text-slate-900 text-sm sm:text-base">
+          Değerli Genç Bilim İnsanları, Araştırmacı, Öğretmen ve Öğrencilerimiz,
+        </p>
+
+        <p>
+          Millî Eğitim Temel Kanunu'nda belirtildiği gibi millî, ahlaki, insani, manevi ve kültürel değerlerimizi gelecek nesillere aktarırken millî mücadelemizin köklü hatırasını yaşatmak üzere Türkiye Cumhuriyeti'nin kuruluşunun 100. yılında Türk milletinin tarih yolculuğundaki varoluş mücadelesi bilim ve teknoloji ile desteklenerek günümüz dinamiklerini anlamak ve gelecek vizyonuna yeni perspektifler kazandırmak amacıyla <strong>ESKİŞEHİR GELECEĞİN SESİ SEMPOZYUMU'nun (ESGES)</strong> üçüncüsü gerçekleştirilecektir.
+        </p>
+
+        <p>
+          Eskişehir İl Millî Eğitim Müdürlüğü tarafından ilki 2023-2024 eğitim-öğretim yılında gerçekleştirilen ESGES Öğrenci Sempozyumu ile Türkiye Yüzyılı'na dair genç bilim insanlarının geleceğe etki edecek fen ve sosyal bilimler alanındaki konular ile ilgili düşünce, beklentileri ve araştırmalarını ortaya koymak amaçlanmaktadır. Eskişehir'de gerçekleştirilen ilk öğrenci sempozyumu olarak nitelendirilebilecek ESGES'in Cumhuriyetin 100. Yılında başlaması da bizim için ayrı bir gurur olarak ifade edilebilir. 2023 yılında proje okullarımızın katılımıyla bir fikir olarak ortaya çıkan ESGES'in Müdürlüğümüzce her yıl farklı konularla düzenlenmesi planlanmaktadır.
+        </p>
+
+        <p>
+          ESGES Öğrenci Sempozyumu ile öğrencilerimizin bilimsel projelerini sergilemelerine olanak sağlanacak, fen ve sosyal bilimler alanlarında çalışan bilim insanları ile öğrenciler bir araya getirilerek ilgili disiplinlerde bilgi ve etkileşim güçlendirilecek, genç bilim insanlarının yetişmesine katkıda bulunulacak, bilimsel araştırma tekniklerinde öğrencilerimize farkındalık kazandırılacaktır.
+        </p>
+
+        <p>
+          Değişen ve gelişen çağda, eğitim sistemleri toplumsal, teknolojik ve kültürel dönüşümlere ayak uydurmak zorundadır. Bu süreçte en çok etkilenen kesim olarak nitelendirilebilecek siz değerli öğrencilerimizin, eğitim hakkındaki görüş ve deneyimlerinin dikkate alınması büyük önem taşımaktadır. Gençlerin beklenti ve önerilerini merkeze alan bir sempozyum, daha katılımcı ve etkili bir eğitim anlayışının oluşmasına katkı sağlayacaktır. Türkiye'nin dünyada yükselen bir ülke konumuna gelebilmesi öğrencilerimizin ve öğretmenlerimizin bilimsel çalışmaları, araştırma projeleri üretebilme gibi bilimsel alandaki katkıları ile mümkün olabilecektir.
+        </p>
+
+        <div class="bg-emerald-50 border-l-4 border-brand-emerald p-4 rounded-r-xl my-4 text-emerald-950">
+          <p class="font-medium">
+            ESGES'in ilk teması, öğrencilerimizin görüşleriyle belirlenen, "Havacılık ve Uzay", ikinci teması ise "Yapay Zeka ve İnsanlığın Geleceği" olarak gerçekleştirilmiştir. Bu yıl üçüncüsünü düzenleyeceğimiz tema ise <strong>"Gençlerin Bakış Açısıyla Gelecekte Eğitim"</strong> olarak belirlenmiştir.
+          </p>
+        </div>
+
+        <p>
+          Sempozyuma gönderilen bildiri, poster gibi çalışmaların özeti, Eskişehir'de görev yapan ve doktora düzeyinde öğrenim görmüş deneyimli öğretmenlerimiz tarafından ön değerlendirmelerden geçecektir. Ön değerlendirmeden geçen bildiri ve poster çalışmaları bilimsel kurul tarafından değerlendirilecek ve uygun bulunan çalışmalar kabul edilecektir. Sempozyumda Türkçe olarak sözlü bildiri ya da poster sunumu yapılabilir. Sempozyum kapsamında bu sene ana tema olarak karar verilen <strong>Gençlerin Bakış Açısıyla Gelecekte Eğitim</strong> alanındaki bildiriler kabul edilecektir. Proje okullarımıza ek olarak bu yıl Eskişehir'de bulunan Anadolu ve Meslek Liselerimiz ile BİLSEM'lerde öğrenim gören öğrencilerimiz danışman öğretmenleri eşliğinde sözlü bildiri ve poster bildiri başvurusu yapacaktır. Sempozyuma katılan bildiriler, sempozyum sonrasında ISBN numarası tahsis edilmiş bildiri kitabında yayınlanacaktır.
+        </p>
+
+        <p>
+          Sizleri ve öğrencilerimizi <strong>08 Haziran 2027</strong> tarihinde düzenleyeceğimiz ESGES Öğrenci Sempozyumu'nda aramızda görmekten mutluluk duyarız. Proje bildirilerinin her okulun sorumlu danışman öğretmeni tarafından, okul ve öğrenci bilgileri de eklenerek <strong>esges2027@gmail.com</strong> adresine en geç <strong>02 Ocak 2027</strong> tarihine kadar gönderilmesi gerekmektedir. Gönderdiğiniz öğrenci bildirileri sempozyum bilim kurulu tarafından değerlendirilerek ve intihal çalışması akabinde kabul edilen ya da üzerinde değişiklik yapılması önerilen bildirilerin duyuruları <strong>16 Ocak 2027</strong> tarihinde yapılacaktır.
+        </p>
+
+        <p class="text-xs text-slate-500 italic">
+          ESGES ile ilgili detaylı bilgi için lütfen ESGES-Eskişehir Geleceğin Sesi Sempozyumu (meb.gov.tr) adresini ziyaret ediniz. Sempozyuma katılımlarınız için teşekkür ederiz.
+        </p>
+
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 mt-6 text-slate-800">
+          <h5 class="font-title font-bold text-xs uppercase tracking-wider text-brand-emerald mb-3 flex items-center gap-2">
+            <i class="fa-solid fa-calendar-check"></i>
+            <span>Önemli Bilgiler ve Tarihler</span>
+          </h5>
+          <ul class="space-y-2 text-xs">
+            <li class="flex items-start gap-2">
+              <span class="font-semibold text-slate-900">• Proje Bildirileri Son Gönderim Tarihi:</span>
+              <span class="text-emerald-700 font-bold">02 Ocak 2027</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="font-semibold text-slate-900">• Kabul Edilen Bildirilerin İlanı:</span>
+              <span class="text-emerald-700 font-bold">08 Haziran 2027</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="font-semibold text-slate-900">• Başvuru Adresi:</span>
+              <a href="mailto:esges2027@gmail.com" class="text-brand-accent hover:underline font-bold">esges2027@gmail.com</a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-3 shrink-0">
+        <button onclick="closeModal('textModal')" class="px-5 py-2.5 rounded-xl border border-slate-300 text-xs font-title font-bold text-slate-600 hover:bg-slate-100 transition-colors">
+          Kapat
+        </button>
+        <a href="ESGES_2027_Cagri_Metni.pdf" download="ESGES_2027_Cagri_Metni.pdf" class="px-5 py-2.5 rounded-xl bg-brand-emerald text-white text-xs font-title font-bold hover:bg-emerald-700 shadow-md shadow-emerald-700/20 flex items-center gap-2 transition-all transform active:scale-95">
+          <i class="fa-solid fa-file-pdf"></i>
+          <span>PDF Olarak İndir</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 2: BİLDİRİ / POSTER GÖNDER ==================== -->
+  <div id="abstractModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-sm hidden p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+
+      <div class="p-6 bg-gradient-to-r from-amber-600 to-orange-700 text-white flex items-center justify-between shrink-0">
+        <div>
+          <span class="text-xs font-title font-bold text-amber-200 uppercase tracking-widest">Başvuru Portalı</span>
+          <h3 class="font-title font-extrabold text-xl mt-0.5">Bildiri / Poster Gönder</h3>
+        </div>
+        <button onclick="closeModal('abstractModal')" class="text-white/80 hover:text-white p-2 text-xl transition-colors">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-4">
+
+        <div>
+          <label class="block text-xs font-title font-bold text-slate-700 uppercase mb-2">Başvuru Türü</label>
+          <div class="grid grid-cols-2 gap-3">
+            <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition-colors has-[:checked]:border-brand-accent has-[:checked]:bg-orange-50/50">
+              <input type="radio" name="submissionType" value="bildiri" checked class="w-4 h-4 text-orange-600 focus:ring-orange-500 border-slate-300">
+              <span class="text-sm font-semibold text-slate-800">Bildiri</span>
+            </label>
+            <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 cursor-pointer hover:bg-slate-50 transition-colors has-[:checked]:border-brand-accent has-[:checked]:bg-orange-50/50">
+              <input type="radio" name="submissionType" value="poster" class="w-4 h-4 text-orange-600 focus:ring-orange-500 border-slate-300">
+              <span class="text-sm font-semibold text-slate-800">Poster</span>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-title font-bold text-slate-700 uppercase mb-1">Yazar / Öğrenci Adı & Soyadı</label>
+          <input type="text" placeholder="Örn: Kerim DELİL" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs font-title font-bold text-slate-700 uppercase mb-1">E-Posta Adresi</label>
+          <input type="email" placeholder="ornek@alanadi.com" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+        </div>
+
+        <div class="w-full max-w-full overflow-hidden">
+          <label class="block text-xs font-title font-bold text-slate-700 uppercase mb-1.5 flex items-center gap-1.5">
+            <span>Alt Tema Tercihi</span>
+          </label>
+          <div class="relative w-full overflow-hidden">
+            <select style="width: 100%; max-width: 100%; box-sizing: border-box; text-overflow: ellipsis;" class="w-full max-w-full truncate pl-3.5 pr-10 py-3 rounded-xl border border-slate-300 text-xs sm:text-sm font-medium text-slate-800 bg-white shadow-sm appearance-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:outline-none transition-all cursor-pointer hover:border-emerald-400">
+              <option value="" disabled selected>Lütfen bir alt tema seçiniz...</option>
+              <option value="Aşırı Hava Olayları, İklim Riskleri ve Erken Uyarı Sistemleri">Aşırı Hava Olayları, İklim Riskleri ve Erken Uyarı Sistemleri</option>
+              <option value="İklim Değişikliğinin Bilimsel Temelleri ve İklim Modelleri">İklim Değişikliğinin Bilimsel Temelleri ve İklim Modelleri</option>
+              <option value="İklim Senaryoları ve Gelecek Perspektifleri">İklim Senaryoları ve Gelecek Perspektifleri</option>
+              <option value="İklim Değişikliğinde Yeni Yaklaşımlar ve Gelecek Perspektifi">İklim Değişikliğinde Yeni Yaklaşımlar ve Gelecek Perspektifi</option>
+              <option value="İklim Değişikliği ve Afet Yönetimi">İklim Değişikliği ve Afet Yönetimi</option>
+              <option value="İklim Değişikliği, Ekosistemler ve Biyoçeşitlilik">İklim Değişikliği, Ekosistemler ve Biyoçeşitlilik</option>
+              <option value="İklim Değişikliği ve Doğal Kaynakların Korunması">İklim Değişikliği ve Doğal Kaynakların Korunması</option>
+              <option value="Tarım, Gıda ve Su Güvenliği">Tarım, Gıda ve Su Güvenliği</option>
+              <option value="Okyanuslar, Denizler, Kıyı Alanları ve İklim Değişikliği">Okyanuslar, Denizler, Kıyı Alanları ve İklim Değişikliği</option>
+              <option value="İklim Değişikliği ve İnsan Sağlığı">İklim Değişikliği ve İnsan Sağlığı</option>
+              <option value="İklim Adaleti, Eşitsizlikler ve Kırılgan Gruplar">İklim Adaleti, Eşitsizlikler ve Kırılgan Gruplar</option>
+              <option value="İklim Göçü ve Dezavantajlı Gruplar">İklim Göçü ve Dezavantajlı Gruplar</option>
+              <option value="İklim Değişikliğinin Sosyal, Kültürel ve Ekonomik Etkileri">İklim Değişikliğinin Sosyal, Kültürel ve Ekonomik Etkileri</option>
+              <option value="İklim Eğitimi ve Sürdürülebilirlik Eğitimi">İklim Eğitimi ve Sürdürülebilirlik Eğitimi</option>
+              <option value="İklim Okuryazarlığı, İletişimi ve Toplumsal Farkındalık">İklim Okuryazarlığı, İletişimi ve Toplumsal Farkındalık</option>
+              <option value="İklim Değişikliği, Kentleşme ve Mekânsal Planlama">İklim Değişikliği, Kentleşme ve Mekânsal Planlama</option>
+              <option value="İklim Dirençli Kentler ve Yerel Yönetimler">İklim Dirençli Kentler ve Yerel Yönetimler</option>
+              <option value="Yeşil ve Mavi Altyapı ile Doğa Temelli Çözümler">Yeşil ve Mavi Altyapı ile Doğa Temelli Çözümler</option>
+              <option value="Kentlerde İklim Değişikliğine Uyum ve Dayanıklılık">Kentlerde İklim Değişikliğine Uyum ve Dayanıklılık</option>
+              <option value="Enerji Dönüşümü, Yenilenebilir Enerji ve Karbonsuzlaşma">Enerji Dönüşümü, Yenilenebilir Enerji ve Karbonsuzlaşma</option>
+              <option value="İklim Teknolojileri, Yapay Zekâ ve Dijital Çözümler">İklim Teknolojileri, Yapay Zekâ ve Dijital Çözümler</option>
+              <option value="İklim İnovasyonu ve Girişimcilik">İklim İnovasyonu ve Girişimcilik</option>
+              <option value="Döngüsel Ekonomi, Sürdürülebilir Tüketim ve Üretim">Döngüsel Ekonomi, Sürdürülebilir Tüketim ve Üretim</option>
+              <option value="İklim Politikaları, Hukuku ve Yönetişim">İklim Politikaları, Hukuku ve Yönetişim</option>
+              <option value="Uluslararası İklim Antlaşmaları ve Küresel İklim Yönetişimi">Uluslararası İklim Antlaşmaları ve Küresel İklim Yönetişimi</option>
+              <option value="Sürdürülebilirlik Perspektifinden İklim Finansmanı ve Yatırımlar">Sürdürülebilirlik Perspektifinden İklim Finansmanı ve Yatırımlar</option>
+              <option value="İklim Değişikliğine Uyum, Azaltım ve Dirençlilik Stratejileri">İklim Değişikliğine Uyum, Azaltım ve Dirençlilik Stratejileri</option>
+              <option value="Kayıp ve Zararlar (Loss and Damage), Adil Geçiş ve İklim Dayanışması">Kayıp ve Zararlar (Loss and Damage), Adil Geçiş ve İklim Dayanışması</option>
+              <option value="İklim Değişikliği ve Eğitim Programları">İklim Değişikliği ve Eğitim Programları</option>
+              <option value="Yeşil Okul ve Yeşil Eğitim">Yeşil Okul ve Yeşil Eğitim</option>
+              <option value="İklim Haberciliği">İklim Haberciliği</option>
+            </select>
+
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+              <div class="w-6 h-6 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
+                <i class="fa-solid fa-chevron-down text-[10px]"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-title font-bold text-slate-700 uppercase mb-1">Çalışma Başlığı</label>
+          <input type="text" placeholder="Çalışmanızın tam başlığı..." class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs font-title font-bold text-slate-700 uppercase mb-1">
+            Özet Dosyası <span class="text-orange-600 font-normal">(Yalnızca .pdf formatında)</span>
+          </label>
+          <input type="file" accept="application/pdf,.pdf" class="w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer border border-slate-200 rounded-xl p-1">
+        </div>
+
+      </div>
+
+      <div class="p-4 bg-slate-50 border-t border-slate-100 flex justify-end gap-3 shrink-0">
+        <button onclick="closeModal('abstractModal')" class="px-5 py-2.5 rounded-xl border border-slate-300 text-xs font-title font-bold text-slate-600 hover:bg-slate-100 transition-colors">
+          Vazgeç
+        </button>
+        <button onclick="submitAbstractForm()" class="px-6 py-2.5 rounded-xl bg-brand-accent text-white text-xs font-title font-bold hover:bg-brand-accentHover flex items-center gap-2 shadow-md shadow-orange-500/20 transition-all active:scale-95">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+          <span>Başvuruyu Tamamla</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== MODAL 3: DUYURU DETAY ==================== -->
+  <div id="noticeModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-sm hidden p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+      <div class="flex items-center justify-between border-b pb-3 mb-4 border-slate-100">
+        <span class="text-xs font-title font-bold text-brand-emerald uppercase tracking-wider">Duyuru Detayı</span>
+        <button onclick="closeModal('noticeModal')" class="text-slate-400 hover:text-slate-700"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+      <h3 id="noticeTitle" class="font-title font-bold text-slate-900 text-lg mb-2"></h3>
+      <p id="noticeBody" class="text-sm text-slate-600 leading-relaxed font-sans mb-6"></p>
+      <div class="flex justify-end">
+        <button onclick="closeModal('noticeModal')" class="px-5 py-2 rounded-xl bg-slate-900 text-white text-xs font-title font-bold hover:bg-slate-800">Tamam</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== YUKARI ÇIK BUTONU ==================== -->
+  <button id="scrollTopBtn" onclick="scrollToTop()" aria-label="Sayfa Başına Çık" class="fixed bottom-6 right-6 z-40 w-11 h-11 bg-brand-accent hover:bg-brand-accentHover text-white rounded-lg shadow-lg shadow-orange-500/30 flex items-center justify-center transition-all duration-300 opacity-0 pointer-events-none transform translate-y-4 hover:-translate-y-1 active:scale-95">
+    <i class="fa-solid fa-chevron-up text-base"></i>
+  </button>
+
+  <!-- ==================== JAVASCRIPT ==================== -->
+  <script>
+    // 1. Preloader
+    window.addEventListener('load', () => {
+      const preloader = document.getElementById('preloader');
+      setTimeout(() => {
+        preloader.classList.add('opacity-0');
+        setTimeout(() => {
+          preloader.style.display = 'none';
+        }, 700);
+      }, 900);
+    });
+
+    // ==========================================
+    // MOBIL DRAWER
+    // ==========================================
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const closeBtn = document.getElementById('closeDrawerBtn');
+    const drawer = document.getElementById('mobileDrawer');
+    const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+    function toggleMenu() {
+      drawer.classList.toggle('hidden');
+    }
+
+    mobileBtn.addEventListener('click', toggleMenu);
+    closeBtn.addEventListener('click', toggleMenu);
+
+    drawer.addEventListener('click', (e) => {
+      if (e.target === drawer) {
+        toggleMenu();
+      }
+    });
+
+    mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+    // ==========================================
+    // HERO SLIDER
+    // ==========================================
+    const slides = document.querySelectorAll('.hero-slide');
+    const dotsContainer = document.getElementById('slideDots');
+    let currentSlide = 0;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.remove('active');
+        slide.classList.add('inactive');
+        if (i === index) {
+          slide.classList.add('active');
+          slide.classList.remove('inactive');
+        }
+      });
+      Array.from(dotsContainer.children).forEach((dot, i) => {
+        if (i === index) {
+          dot.className = "w-7 h-1.5 rounded-full bg-emerald-400 cursor-pointer transition-all";
+        } else {
+          dot.className = "w-2 h-1.5 rounded-full bg-white/40 cursor-pointer hover:bg-white transition-all";
+        }
+      });
+    }
+
+    setInterval(() => {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }, 5500);
+
+    Array.from(dotsContainer.children).forEach((dot, idx) => {
+      dot.addEventListener('click', () => {
+        currentSlide = idx;
+        showSlide(currentSlide);
+      });
+    });
+
+    // ==========================================
+    // 5'Lİ GERİ SAYIM
+    // ==========================================
+    const targetDate = new Date('2027-05-25T09:00:00');
+
+    function updateCountdown() {
+      const now = new Date();
+
+      if (now >= targetDate) {
+        document.getElementById('countdownMonths').innerText = '00';
+        document.getElementById('countdownDays').innerText = '00';
+        document.getElementById('countdownHours').innerText = '00';
+        document.getElementById('countdownMinutes').innerText = '00';
+        document.getElementById('countdownSeconds').innerText = '00';
+        return;
+      }
+
+      let months = (targetDate.getFullYear() - now.getFullYear()) * 12 + (targetDate.getMonth() - now.getMonth());
+      let tempDate = new Date(now.getFullYear(), now.getMonth() + months, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
+
+      if (tempDate > targetDate) {
+        months--;
+        tempDate = new Date(now.getFullYear(), now.getMonth() + months, now.getDate(), now.getHours(), now.getMinutes(), now.getSeconds());
+      }
+
+      const diffMs = targetDate - tempDate;
+      const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diffMs % (1000 * 60)) / 1000);
+
+      document.getElementById('countdownMonths').innerText = String(months).padStart(2, '0');
+      document.getElementById('countdownDays').innerText = String(days).padStart(2, '0');
+      document.getElementById('countdownHours').innerText = String(hours).padStart(2, '0');
+      document.getElementById('countdownMinutes').innerText = String(minutes).padStart(2, '0');
+      document.getElementById('countdownSeconds').innerText = String(seconds).padStart(2, '0');
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // ==========================================
+    // MODAL FONKSİYONLARI
+    // ==========================================
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (!modal) return;
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    window.addEventListener('click', (e) => {
+      if (e.target.id === 'textModal') closeModal('textModal');
+      if (e.target.id === 'abstractModal') closeModal('abstractModal');
+      if (e.target.id === 'noticeModal') closeModal('noticeModal');
+    });
+
+    // ==========================================
+    // YUKARI ÇIK BUTONU
+    // ==========================================
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) {
+        scrollTopBtn.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+        scrollTopBtn.classList.add('opacity-100', 'pointer-events-auto', 'translate-y-0');
+      } else {
+        scrollTopBtn.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+        scrollTopBtn.classList.remove('opacity-100', 'pointer-events-auto', 'translate-y-0');
+      }
+    });
+
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // ==========================================
+    // ALT TEMALAR SLIDER
+    // ==========================================
+    const themesSlider = document.getElementById('themesSlider');
+    const prevThemeBtn = document.getElementById('prevThemeBtn');
+    const nextThemeBtn = document.getElementById('nextThemeBtn');
+    const themeProgressBar = document.getElementById('themeProgressBar');
+
+    if (themesSlider && prevThemeBtn && nextThemeBtn) {
+      function getScrollAmount() {
+        const card = themesSlider.querySelector('div');
+        return card ? (card.offsetWidth + 24) * 2 : 320;
+      }
+
+      nextThemeBtn.addEventListener('click', () => {
+        themesSlider.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+      });
+
+      prevThemeBtn.addEventListener('click', () => {
+        themesSlider.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+      });
+
+      themesSlider.addEventListener('scroll', () => {
+        const maxScroll = themesSlider.scrollWidth - themesSlider.clientWidth;
+        if (maxScroll > 0) {
+          const progress = (themesSlider.scrollLeft / maxScroll) * 100;
+          if (themeProgressBar) {
+            themeProgressBar.style.width = Math.max(15, progress) + '%';
+          }
+          prevThemeBtn.disabled = themesSlider.scrollLeft <= 5;
+          nextThemeBtn.disabled = themesSlider.scrollLeft >= maxScroll - 5;
+        }
+      });
+
+      prevThemeBtn.disabled = true;
+    }
+
+    // ==========================================
+    // SSS ACCORDION
+    // ==========================================
+    function toggleFaq(button) {
+      const answer = button.nextElementSibling;
+      const icon = button.querySelector('i');
+      const isHidden = answer.classList.contains('hidden');
+      answer.classList.toggle('hidden', !isHidden);
+      icon.classList.toggle('rotate-180', isHidden);
+    }
+
+    // ==========================================
+    // PAYDAŞLAR OTOMATIK KAYDIRMA + DRAG
+    // ==========================================
+    const track = document.getElementById('partnersTrack');
+
+    if (track) {
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+      let autoScrollTimer = null;
+
+      track.addEventListener('mousedown', (e) => {
+        isDown = true;
+        track.classList.add('cursor-grabbing');
+        startX = e.pageX - track.offsetLeft;
+        scrollLeft = track.scrollLeft;
+        stopAutoScroll();
+      });
+
+      track.addEventListener('mouseleave', () => {
+        isDown = false;
+        track.classList.remove('cursor-grabbing');
+        startAutoScroll();
+      });
+
+      track.addEventListener('mouseup', () => {
+        isDown = false;
+        track.classList.remove('cursor-grabbing');
+        startAutoScroll();
+      });
+
+      track.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - track.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        track.scrollLeft = scrollLeft - walk;
+      });
+
+      function stepScroll() {
+        const firstCard = track.querySelector('div');
+        const cardWidth = firstCard ? (firstCard.offsetWidth + 16) : 190;
+        const maxScroll = track.scrollWidth - track.clientWidth;
+
+        if (track.scrollLeft >= maxScroll - 10) {
+          track.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          track.scrollBy({ left: cardWidth, behavior: 'smooth' });
+        }
+      }
+
+      function startAutoScroll() {
+        if (!autoScrollTimer) {
+          autoScrollTimer = setInterval(stepScroll, 2500);
+        }
+      }
+
+      function stopAutoScroll() {
+        clearInterval(autoScrollTimer);
+        autoScrollTimer = null;
+      }
+
+      track.addEventListener('mouseenter', stopAutoScroll);
+      track.addEventListener('mouseleave', startAutoScroll);
+
+      startAutoScroll();
+    }
+
+    // ==========================================
+    // SCROLL REVEAL - Intersection Observer
+    // ==========================================
+    (function initScrollReveal() {
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const targets = document.querySelectorAll(
+        '.reveal, .reveal-left, .reveal-right, .reveal-scale, ' +
+        '.reveal-heading, .timeline-item, .notice-card, .stat-number'
+      );
+
+      if (prefersReduced) {
+        targets.forEach(el => el.classList.add('is-visible'));
+        return;
+      }
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -50px 0px'
+      });
+
+      targets.forEach(el => observer.observe(el));
+    })();
+
+    // ==========================================
+    // HERO - Sayfa açılır açılmaz görünür olsun
+    // ==========================================
+    window.addEventListener('load', () => {
+      document.querySelectorAll('#anasayfa .reveal, #anasayfa .reveal-heading')
+        .forEach(el => el.classList.add('is-visible'));
+    });
+
+    // ==========================================
+    // Yardımcı fonksiyon (mevcut kullanım için)
+    // ==========================================
+    function openNoticeModal(title, body) {
+      document.getElementById('noticeTitle').textContent = title;
+      document.getElementById('noticeBody').textContent = body;
+      openModal('noticeModal');
+    }
+
+    function submitAbstractForm() {
+      alert('Başvuru formu demo modundadır. Backend entegrasyonu gereklidir.');
+    }
+  </script>
+
+</body>
+</html>
